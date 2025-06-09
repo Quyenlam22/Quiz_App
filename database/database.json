@@ -1,0 +1,799 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "fullName": "Nguyen Thi A",
+      "email": "nguyenthian@gmail.com",
+      "password": "123456",
+      "token": "token_1_abc"
+    },
+    {
+      "id": 2,
+      "fullName": "Tran Van B",
+      "email": "tranvanb@gmail.com",
+      "password": "123456",
+      "token": "token_2_def"
+    },
+    {
+      "id": 3,
+      "fullName": "Le Van A",
+      "email": "levana@gmail.com",
+      "password": "123456",
+      "token": "token_3_ghi"
+    },
+    {
+      "id": 4,
+      "fullName": "Pham Van D",
+      "email": "phamvand@gmail.com",
+      "password": "123456",
+      "token": "token_4_jkl"
+    },
+    {
+      "id": 5,
+      "fullName": "Hoang Thi E",
+      "email": "hoangthie@gmail.com",
+      "password": "123456",
+      "token": "token_5_mno"
+    }
+  ],
+  "topics": [
+    {
+      "id": 1,
+      "name": "HTML5"
+    },
+    {
+      "id": 2,
+      "name": "CSS3"
+    },
+    {
+      "id": 3,
+      "name": "JavaScript"
+    },
+    {
+      "id": 4,
+      "name": "SCSS"
+    },
+    {
+      "id": 5,
+      "name": "ReactJS"
+    }
+  ],
+  "questions": [
+    {
+      "id": 1,
+      "topicId": 1,
+      "question": "Thẻ nào dùng để tạo một liên kết trong HTML?",
+      "answers": [
+        "<a>",
+        "<link>",
+        "<href>",
+        "<url>"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 2,
+      "topicId": 1,
+      "question": "Thuộc tính nào để đặt văn bản thay thế cho ảnh?",
+      "answers": [
+        "alt",
+        "src",
+        "title",
+        "href"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 3,
+      "topicId": 1,
+      "question": "Thẻ nào để chèn hình ảnh?",
+      "answers": [
+        "<img>",
+        "<image>",
+        "<src>",
+        "<picture>"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 4,
+      "topicId": 1,
+      "question": "HTML viết tắt của?",
+      "answers": [
+        "HyperText Markup Language",
+        "HyperTool Multi Language",
+        "Home Tool Markup Language"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 5,
+      "topicId": 1,
+      "question": "Thẻ nào để tạo danh sách không thứ tự?",
+      "answers": [
+        "<ul>",
+        "<ol>",
+        "<list>",
+        "<li>"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 6,
+      "topicId": 1,
+      "question": "Thẻ nào dùng để tạo tiêu đề?",
+      "answers": [
+        "<h1> đến <h6>",
+        "<head>",
+        "<title>",
+        "<header>"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 7,
+      "topicId": 1,
+      "question": "Thẻ nào chứa nội dung chính?",
+      "answers": [
+        "<body>",
+        "<main>",
+        "<content>",
+        "<section>"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 8,
+      "topicId": 1,
+      "question": "Thẻ nào để tạo form?",
+      "answers": [
+        "<form>",
+        "<input>",
+        "<fieldset>",
+        "<button>"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 9,
+      "topicId": 1,
+      "question": "HTML có phải là ngôn ngữ lập trình không?",
+      "answers": [
+        "Không",
+        "Có",
+        "Tùy vào ngữ cảnh"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 10,
+      "topicId": 1,
+      "question": "Thẻ nào để tạo bảng?",
+      "answers": [
+        "<table>",
+        "<tr>",
+        "<td>",
+        "<th>"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 11,
+      "topicId": 2,
+      "question": "Thuộc tính nào dùng để đổi màu nền phần tử?",
+      "answers": [
+        "background-color",
+        "color",
+        "bg-color",
+        "background"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 12,
+      "topicId": 2,
+      "question": "Đơn vị nào trong CSS là tương đối?",
+      "answers": [
+        "em",
+        "px",
+        "vh",
+        "cm"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 13,
+      "topicId": 2,
+      "question": "Thuộc tính nào để canh giữa văn bản theo chiều ngang?",
+      "answers": [
+        "text-align",
+        "align",
+        "justify",
+        "margin"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 14,
+      "topicId": 2,
+      "question": "Selector nào chọn phần tử theo ID?",
+      "answers": [
+        "#id",
+        ".id",
+        "id()",
+        "$id"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 15,
+      "topicId": 2,
+      "question": "Để bo tròn góc của phần tử, dùng thuộc tính nào?",
+      "answers": [
+        "border-radius",
+        "corner-round",
+        "border-curve"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 16,
+      "topicId": 2,
+      "question": "Thuộc tính nào để ẩn một phần tử khỏi giao diện?",
+      "answers": [
+        "display: none",
+        "visibility: hidden",
+        "opacity: 0"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 17,
+      "topicId": 2,
+      "question": "Thuộc tính nào dùng để tạo đường viền?",
+      "answers": [
+        "border",
+        "outline",
+        "frame",
+        "line"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 18,
+      "topicId": 2,
+      "question": "Cách nào để nhúng CSS từ file bên ngoài vào HTML?",
+      "answers": [
+        "<link>",
+        "<style>",
+        "@import",
+        "<css>"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 19,
+      "topicId": 2,
+      "question": "Pseudo-class nào dùng khi rê chuột vào phần tử?",
+      "answers": [
+        ":hover",
+        ":active",
+        ":focus",
+        ":click"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 20,
+      "topicId": 2,
+      "question": "Cách comment đúng trong CSS là gì?",
+      "answers": [
+        "/* comment */",
+        "// comment",
+        "<!-- comment -->",
+        "# comment"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 21,
+      "topicId": 3,
+      "question": "Từ khóa nào dùng để khai báo biến?",
+      "answers": [
+        "var",
+        "let",
+        "const",
+        "all đáp án trên"
+      ],
+      "correctAnswer": 3
+    },
+    {
+      "id": 22,
+      "topicId": 3,
+      "question": "Kiểu dữ liệu nào là kiểu nguyên thủy?",
+      "answers": [
+        "string",
+        "object",
+        "array",
+        "function"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 23,
+      "topicId": 3,
+      "question": "Hàm nào dùng để in ra console?",
+      "answers": [
+        "console.log()",
+        "print()",
+        "log()",
+        "alert()"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 24,
+      "topicId": 3,
+      "question": "Toán tử so sánh nghiêm ngặt là?",
+      "answers": [
+        "==",
+        "===",
+        "!=",
+        "="
+      ],
+      "correctAnswer": 1
+    },
+    {
+      "id": 25,
+      "topicId": 3,
+      "question": "Hàm nào để chuyển chuỗi thành số?",
+      "answers": [
+        "parseInt()",
+        "toString()",
+        "Number()",
+        "String()"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 26,
+      "topicId": 3,
+      "question": "Sự kiện nào xảy ra khi nhấn nút?",
+      "answers": [
+        "click",
+        "hover",
+        "focus",
+        "change"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 27,
+      "topicId": 3,
+      "question": "Câu lệnh điều kiện trong JS là?",
+      "answers": [
+        "if",
+        "when",
+        "unless",
+        "define"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 28,
+      "topicId": 3,
+      "question": "Vòng lặp nào sẽ chạy ít nhất một lần?",
+      "answers": [
+        "do...while",
+        "while",
+        "for",
+        "foreach"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 29,
+      "topicId": 3,
+      "question": "typeof null trả về kết quả gì?",
+      "answers": [
+        "object",
+        "null",
+        "undefined",
+        "false"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 30,
+      "topicId": 3,
+      "question": "Cách tạo một hàm trong JS?",
+      "answers": [
+        "function name() {}",
+        "func name()",
+        "def name()",
+        "create name()"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 31,
+      "topicId": 4,
+      "question": "SCSS là phần mở rộng của ngôn ngữ nào?",
+      "answers": [
+        "CSS",
+        "HTML",
+        "JS",
+        "XML"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 32,
+      "topicId": 4,
+      "question": "Ký hiệu khai báo biến trong SCSS là gì?",
+      "answers": [
+        "$",
+        "@",
+        "#",
+        "&"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 33,
+      "topicId": 4,
+      "question": "SCSS hỗ trợ tính năng nào sau đây?",
+      "answers": [
+        "Nesting",
+        "Inheritance",
+        "Mixins",
+        "Tất cả"
+      ],
+      "correctAnswer": 3
+    },
+    {
+      "id": 34,
+      "topicId": 4,
+      "question": "Lệnh nào dùng để nhập file SCSS khác?",
+      "answers": [
+        "@import",
+        "@include",
+        "@extend",
+        "@use"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 35,
+      "topicId": 4,
+      "question": "Mixin dùng để làm gì?",
+      "answers": [
+        "Tái sử dụng nhóm thuộc tính",
+        "Kế thừa biến",
+        "Khai báo hàm JS",
+        "Gộp file"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 36,
+      "topicId": 4,
+      "question": "Ký hiệu truyền tham số cho mixin?",
+      "answers": [
+        "$",
+        "#",
+        "@",
+        "&"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 37,
+      "topicId": 4,
+      "question": "SCSS hỗ trợ vòng lặp không?",
+      "answers": [
+        "Có",
+        "Không"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 38,
+      "topicId": 4,
+      "question": "Để kế thừa selector, dùng lệnh nào?",
+      "answers": [
+        "@extend",
+        "@include",
+        "@mixin",
+        "@inherit"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 39,
+      "topicId": 4,
+      "question": "Nesting là gì trong SCSS?",
+      "answers": [
+        "Lồng selector",
+        "Gộp file",
+        "Dùng biến",
+        "Chia layout"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 40,
+      "topicId": 4,
+      "question": "Tập tin SCSS có phần mở rộng là gì?",
+      "answers": [
+        ".scss",
+        ".sass",
+        ".css",
+        ".style"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 41,
+      "topicId": 5,
+      "question": "React là thư viện của ngôn ngữ nào?",
+      "answers": [
+        "JavaScript",
+        "Python",
+        "PHP",
+        "Ruby"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 42,
+      "topicId": 5,
+      "question": "Câu lệnh nào để tạo component hàm?",
+      "answers": [
+        "function MyComponent() {}",
+        "component MyComponent",
+        "create MyComponent"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 43,
+      "topicId": 5,
+      "question": "JSX là gì?",
+      "answers": [
+        "JavaScript XML",
+        "Java Syntax Extension",
+        "JavaScript X-ray",
+        "JavaScript Expression"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 44,
+      "topicId": 5,
+      "question": "Hook nào dùng để quản lý state?",
+      "answers": [
+        "useState",
+        "useEffect",
+        "useRef",
+        "useHook"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 45,
+      "topicId": 5,
+      "question": "useEffect được gọi khi nào?",
+      "answers": [
+        "Sau khi component render",
+        "Trước khi render",
+        "Chỉ khi load trang",
+        "Không bao giờ"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 46,
+      "topicId": 5,
+      "question": "Props trong React là gì?",
+      "answers": [
+        "Dữ liệu truyền vào component",
+        "Biến toàn cục",
+        "Biến cục bộ",
+        "State nâng cao"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 47,
+      "topicId": 5,
+      "question": "Key trong React dùng để làm gì?",
+      "answers": [
+        "Tối ưu render danh sách",
+        "Mã hóa",
+        "Bảo mật",
+        "Lưu giá trị"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 48,
+      "topicId": 5,
+      "question": "Cách truyền props là?",
+      "answers": [
+        "<Component name='John' />",
+        "props(Component)",
+        "<Component.props>",
+        "define props"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 49,
+      "topicId": 5,
+      "question": "Redux là gì?",
+      "answers": [
+        "Thư viện quản lý state",
+        "Router",
+        "CSS framework",
+        "Hook trong React"
+      ],
+      "correctAnswer": 0
+    },
+    {
+      "id": 50,
+      "topicId": 5,
+      "question": "Câu lệnh import React chuẩn là?",
+      "answers": [
+        "import React from 'react';",
+        "require('react')",
+        "use react",
+        "include React"
+      ],
+      "correctAnswer": 0
+    }
+  ],
+  "answers": [
+    {
+      "id": 1,
+      "userId": 3,
+      "topicId": 3,
+      "answers": [
+        {
+          "questionId": 21,
+          "answer": 3
+        },
+        {
+          "questionId": 22,
+          "answer": 0
+        },
+        {
+          "questionId": 23,
+          "answer": 0
+        },
+        {
+          "questionId": 24,
+          "answer": 1
+        },
+        {
+          "questionId": 25,
+          "answer": 0
+        },
+        {
+          "questionId": 26,
+          "answer": 0
+        },
+        {
+          "questionId": 27,
+          "answer": 0
+        },
+        {
+          "questionId": 28,
+          "answer": 0
+        },
+        {
+          "questionId": 29,
+          "answer": 0
+        },
+        {
+          "questionId": 30,
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "userId": 3,
+      "topicId": 4,
+      "answers": [
+        {
+          "questionId": 31,
+          "answer": 0
+        },
+        {
+          "questionId": 32,
+          "answer": 0
+        },
+        {
+          "questionId": 33,
+          "answer": 3
+        },
+        {
+          "questionId": 34,
+          "answer": 0
+        },
+        {
+          "questionId": 35,
+          "answer": 0
+        },
+        {
+          "questionId": 36,
+          "answer": 0
+        },
+        {
+          "questionId": 37,
+          "answer": 0
+        },
+        {
+          "questionId": 38,
+          "answer": 0
+        },
+        {
+          "questionId": 39,
+          "answer": 0
+        },
+        {
+          "questionId": 40,
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "userId": 3,
+      "topicId": 5,
+      "answers": [
+        {
+          "questionId": 41,
+          "answer": 0
+        },
+        {
+          "questionId": 42,
+          "answer": 0
+        },
+        {
+          "questionId": 43,
+          "answer": 0
+        },
+        {
+          "questionId": 44,
+          "answer": 0
+        },
+        {
+          "questionId": 45,
+          "answer": 0
+        },
+        {
+          "questionId": 46,
+          "answer": 0
+        },
+        {
+          "questionId": 47,
+          "answer": 0
+        },
+        {
+          "questionId": 48,
+          "answer": 0
+        },
+        {
+          "questionId": 49,
+          "answer": 0
+        },
+        {
+          "questionId": 50,
+          "answer": 0
+        }
+      ]
+    }
+  ]
+}
