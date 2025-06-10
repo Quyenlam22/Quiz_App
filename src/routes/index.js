@@ -7,6 +7,7 @@ import Register from "../pages/Register";
 import Quiz from "../pages/Quiz";
 import Result from "../pages/Result";
 import PrivateRoutes from "../components/PrivateRoutes/index";
+import Logout from "../pages/Logout";
 
 export const routes = [
     {
@@ -24,6 +25,10 @@ export const routes = [
             {
                 path: "/register",
                 element: <Register/>,
+            },
+            {
+                path: "/logout",
+                element: <Logout/>,
             },
             {
                 element: <PrivateRoutes/>,

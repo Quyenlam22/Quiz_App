@@ -1,8 +1,13 @@
 import { NavLink, Outlet } from "react-router-dom";
 import './LayoutDefault.scss';
 import { Button } from 'antd'
+import Cookies from 'js-cookie';
+import { useSelector } from "react-redux";
 
 function LayoutDefault () {
+    const token = Cookies.get("token");
+    const isLogin = useSelector(state => state.loginReducer);
+
     const navLinkActive = (e) => {
         return e.isActive ? "menu__link menu__link--active" : "menu__link";
     }
@@ -24,25 +29,42 @@ function LayoutDefault () {
                                     Home
                                 </NavLink>
                             </li>
-                            <li>
-                                <NavLink to="/topics" className={navLinkActive}>
-                                    Topic
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink to="/answers" className={navLinkActive}>
-                                    Answers
-                                </NavLink>
-                            </li>
+                            {token && (
+                                <>
+                                    <li>
+                                        <NavLink to="/topics" className={navLinkActive}>
+                                            Topic
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to="/answers" className={navLinkActive}>
+                                            Answers
+                                        </NavLink>
+                                    </li>
+                                </>
+                            )}
                         </ul>    
                     </div>
                     <div className="layout-default__account">
-                        <Button className="mr-5">
-                            <NavLink to="/login">Đăng nhập</NavLink>
-                        </Button>
-                        <Button>
-                            <NavLink to="/register">Đăng ký</NavLink>
-                        </Button>
+                        {token ? (
+                            <>
+                                <Button className="mr-5">
+                                    <NavLink to="/info-user">{Cookies.get("fullName")}</NavLink>
+                                </Button>
+                                <Button>
+                                    <NavLink to="/logout">Đăng xuất</NavLink>
+                                </Button>
+                            </>
+                        ) : (
+                            <>
+                                <Button className="mr-5">
+                                    <NavLink to="/login">Đăng nhập</NavLink>
+                                </Button>
+                                <Button>
+                                    <NavLink to="/register">Đăng ký</NavLink>
+                                </Button>
+                            </>
+                        )}
                     </div>
                 </header> 
                 <main className="layout-default__main">
