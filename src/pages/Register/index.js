@@ -1,16 +1,12 @@
-import { Button, Checkbox, Form, Input } from 'antd';
-import { checkExits, login, register } from '../../services/usersService';
+import { Button, Form, Input } from 'antd';
+import { checkExits, register } from '../../services/usersService';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
-import { useDispatch } from "react-redux";
-import { checkLogin } from '../../actions/login';
 import { generateRandomString } from '../../utils/generate';
 
 const rules = [{ required: true, message: 'Please fill in this field!' }]
 
 function Register () {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const onFinish = async (values) => {
     const checkExitsEmail = await checkExits('email', values.email);

@@ -42,7 +42,7 @@ export const routes = [
                         element: <Answers/>,
                     },
                     {
-                        path: "/quiz",
+                        path: "/quiz/:id",
                         element: <Quiz/>,
                     },
                     {
