@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { checkLogin } from "../../actions/login";
 
 function Logout () {
+  Cookies.remove("id");
   Cookies.remove("fullName");
   Cookies.remove("token");
   const navigate = useNavigate();

@@ -15,6 +15,7 @@ function Login () {
     const { email, password } = values;
     const response = await login(email, password);
     if(response.length > 0) {
+      Cookies.set('id', response[0].id);
       Cookies.set('token', response[0].token);
       Cookies.set('fullName', response[0].fullName);
       dispatch(checkLogin(true));
