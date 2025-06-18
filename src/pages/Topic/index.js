@@ -41,7 +41,7 @@ function Topic () {
       name: item.name,
       actions: (
         <>
-          <Button>
+          <Button className="button__practice">
             <Link to={`/quiz/${item.id}`}>Practice</Link>
           </Button>
         </>

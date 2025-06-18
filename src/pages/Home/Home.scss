@@ -1,0 +1,52 @@
+.welcome {
+  background-image: linear-gradient(to right, rgb(163, 10, 200), rgba(255, 255, 255, 0)), url('../../assets/images/welcome.jpg');
+  border-radius: 16px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+
+  &__content {
+    color: #fff;
+    padding: 80px 50% 80px 80px;
+  }
+
+  &__desc {
+    margin: 30px 0;
+  }
+}
+
+.explore {
+  margin: 60px;
+
+  &__title {
+    text-align: center;
+    font-size: 24px;
+  }
+
+  &__item {
+    position: relative;
+  }
+
+  &__image {
+      
+    img {
+      max-height: 600px; 
+      width: 100%;
+      object-fit: contain;
+    }
+  }
+
+  &__content {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;            
+    transform: translateX(-50%); 
+    text-align: center;
+  }
+
+  &__topic {
+    font-size: 32px;
+    font-weight: 800;
+    padding: 30px;
+  }
+}

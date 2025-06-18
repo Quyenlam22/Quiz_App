@@ -52,7 +52,7 @@ function Answers () {
       name: item.name,
       detail: (
         <>
-          <Button>
+          <Button className="button__practice">
             <Link to={`/result/${item.id}`}>Detail</Link>
           </Button>
         </>
