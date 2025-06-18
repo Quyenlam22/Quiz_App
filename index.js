@@ -5,13 +5,11 @@ const database = require("./back-end/config/database");
 database.connect();
 
 const app = express();
-const port = process.env.PORT;
+const port = 3002;
 
-app.get(`/api/v1/`, async (req, res) => {
-  res.json({
-    code: 200,
-  });
-});
+const route = require("./back-end/api/v1/routes/client/index");
+
+route(app);
 
 app.listen(port, () => {
   console.log(`Server is running on ${port}`);

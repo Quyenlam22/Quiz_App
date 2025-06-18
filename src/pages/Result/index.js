@@ -26,6 +26,10 @@ function Result () {
       
       setData(result);
 
+      console.log(data);
+      
+      
+
       const values = {};
       result.forEach(item => {
         values[item.id] = item.answer;
@@ -34,6 +38,8 @@ function Result () {
 
       let cnt = 0;
       for(let item of data){
+        console.log(item);
+        
         if(item.correctAnswer == item.answer){
           cnt++;
         }
@@ -43,6 +49,19 @@ function Result () {
 
     fetchApi();
   }, [])
+
+  useEffect(() => {
+    if (data.length === 0) return;
+
+    let cnt = 0;
+    for (let item of data) {
+      if (item.correctAnswer === item.answer) {
+        cnt++;
+      }
+    }
+    setCorrectAnswer(cnt);
+  }, [data]);
+
 
   const handleSubmit = async () => {
     navigate(`/quiz/${data[0].topicId}`);
