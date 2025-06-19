@@ -40,3 +40,21 @@ module.exports.detail = async ( req, res ) => {
     });
   }
 }
+
+// [POST] /api/v1/answers
+module.exports.post = async ( req, res ) => {
+  try {
+    const answer = new Answer(req.body);
+    await answer.save();
+
+    res.json({
+      code: 200,
+      data: answer,
+    });
+  } catch (error) {
+    res.json({
+      code: 400,
+      message: error
+    });
+  }
+}
