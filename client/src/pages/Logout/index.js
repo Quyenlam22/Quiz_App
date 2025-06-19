@@ -22,7 +22,7 @@ function Logout () {
     setTimeout(() => {
       navigate("/login");
     }, 500)
-  }, [])
+  }, [api, dispatch, navigate])
 
   return (
     <>

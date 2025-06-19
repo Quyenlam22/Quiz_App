@@ -20,36 +20,22 @@ function Result () {
       for(let i = 0; i < dataQuestions.length; i++) {
         result.push({
           ...dataQuestions[i],
-          ...response.answers.find(item => item.questionId == dataQuestions[i].id)
+          ...response.answers.find(item => item.questionId === dataQuestions[i].id)
         })
       }
       
-      setData(result);
-
-      console.log(data);
-      
-      
-
       const values = {};
       result.forEach(item => {
         values[item.id] = item.answer;
       });
       form.setFieldsValue(values);
 
-      let cnt = 0;
-      for(let item of data){
-        console.log(item);
-        
-        if(item.correctAnswer == item.answer){
-          cnt++;
-        }
-      }
-      setCorrectAnswer(cnt);
+      setData(result);
     }
 
     fetchApi();
-  }, [])
-
+  }, [params.id, form])
+  
   useEffect(() => {
     if (data.length === 0) return;
 

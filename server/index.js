@@ -3,7 +3,7 @@ require("dotenv").config();
 
 const bodyParser = require('body-parser');
 
-const database = require("./back-end/config/database");
+const database = require("./config/database");
 database.connect();
 
 const app = express();
@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded())
 // parse application/json
 app.use(bodyParser.json())
 
-const route = require("./back-end/api/v1/routes/client/index");
+const route = require("./api/v1/routes/client/index");
 
 route(app);
 

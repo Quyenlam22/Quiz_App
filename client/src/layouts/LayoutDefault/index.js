@@ -2,13 +2,11 @@ import { Link, NavLink, Outlet } from "react-router-dom";
 import './LayoutDefault.scss';
 import { Button, Flex, Layout } from 'antd'
 import Cookies from 'js-cookie';
-import { useSelector } from "react-redux";
 import { BankOutlined, ClockCircleOutlined, CreditCardOutlined, EnvironmentOutlined, FacebookOutlined, IdcardOutlined, InstagramOutlined, MailOutlined, PhoneOutlined, PinterestOutlined, TwitterOutlined } from "@ant-design/icons";
 import { Footer } from "antd/es/layout/layout";
 
 function LayoutDefault () {
     const token = Cookies.get("token");
-    const isLogin = useSelector(state => state.loginReducer);
 
     const navLinkActive = (e) => {
         return e.isActive ? "menu__link menu__link--active" : "menu__link";

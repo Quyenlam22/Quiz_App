@@ -1,4 +1,4 @@
-import { Button, Card, Carousel, Col, Flex, Row } from "antd";
+import { Button, Carousel, Flex } from "antd";
 import './Home.scss';
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";

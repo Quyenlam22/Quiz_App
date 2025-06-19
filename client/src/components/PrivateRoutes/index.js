@@ -16,7 +16,7 @@ function PrivateRoutes() {
             }, 1000);
 
         }
-    }, []);
+    }, [messageApi, token]);
 
     return (
         <>

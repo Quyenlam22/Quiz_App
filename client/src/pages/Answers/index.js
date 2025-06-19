@@ -36,7 +36,7 @@ function Answers () {
       let result = [];
       for (let i = 0; i < answersByUserId.length; i++) {
         result.push({
-          ...topics.find(item => item.id == answersByUserId[i].topicId),
+          ...topics.find(item => item.id === answersByUserId[i].topicId),
           ...answersByUserId[i]
         })
       }

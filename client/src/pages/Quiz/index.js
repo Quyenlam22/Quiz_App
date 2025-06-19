@@ -19,7 +19,7 @@ function Quiz () {
       setData(response);
     }
     fetchApi();
-  }, [])
+  }, [params.id])
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -27,7 +27,7 @@ function Quiz () {
       setQuestions(response);
     }
     fetchApi();
-  }, [])
+  }, [params.id])
 
   const handleSubmit = async (values) => {
     const answers = Object.entries(values).map(([questionId, answerIndex]) => ({
