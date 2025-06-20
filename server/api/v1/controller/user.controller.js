@@ -11,7 +11,7 @@ module.exports.login = async (req, res) => {
       role: req.body.role,
       deleted: false
     }
-    const user = await User.findOne(options);
+    const user = await User.findOne(options).select("-password");
 
     if (user) {
       res.json({

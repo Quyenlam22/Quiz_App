@@ -16,7 +16,9 @@ function Quiz () {
   useEffect(() => {
     const fetchApi = async () => {
       const response = await getTopic(params.id);
-      setData(response);
+      if(response.code === 200) {
+        setData(response.data);
+      }
     }
     fetchApi();
   }, [params.id])
@@ -24,31 +26,33 @@ function Quiz () {
   useEffect(() => {
     const fetchApi = async () => {
       const response = await getListQuestion(params.id);
-      setQuestions(response);
+      if(response.code === 200) {
+        setQuestions(response.data);
+      }
     }
     fetchApi();
   }, [params.id])
 
   const handleSubmit = async (values) => {
     const answers = Object.entries(values).map(([questionId, answerIndex]) => ({
-      questionId: parseInt(questionId),
+      questionId: questionId,
       answer: answerIndex
     }));
 
     const options = {
-      userId: parseInt(Cookies.get('id')),
-      topicId: parseInt(params.id),
+      userId: Cookies.get('id'),
+      topicId: params.id,
       answers: answers
     }
 
     const response = await createAnswer(options);
-    if(response) {
+    if(response.code === 200) {
       messageApi.open({
         type: 'success',
         content: 'Submitted successfully!',
       });
       setTimeout(() => {
-        navigate(`/result/${response.id}`);
+        navigate(`/result/${response.data._id}`);
       }, 1000);
     }
     else {
@@ -63,16 +67,16 @@ function Quiz () {
   return (
     <>
       {contextHolder}
-      <h2>Quiz Topic: {data && (<>{data[0].name}</>)} </h2>
+      <h2>Quiz Topic: {data && (<>{data.name}</>)} </h2>
       <div className="form-quiz">
         <Form 
           onFinish={handleSubmit}
         >
           {questions && questions.map((item, index) => (
-            <div className="form-quiz__item" key={item.id}>
+            <div className="form-quiz__item" key={item._id}>
               <p>Question {index + 1}: {item.question}</p>
                 <Form.Item 
-                  name={`${item.id}`}
+                  name={`${item._id}`}
                   // rules={[{ required: true, message: "Please select an answer!" }]}
                 >
                   <Radio.Group

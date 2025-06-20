@@ -1,4 +1,4 @@
-import { Button, Carousel, Flex } from "antd";
+import { Button, Carousel, Flex, message } from "antd";
 import './Home.scss';
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -6,12 +6,18 @@ import { getListTopic } from "../../services/topicService";
 
 function Home () {
   const [data, setData] = useState([]);
-
+  const [messageApi, contextHolder] = message.useMessage();
+  
   useEffect(() => {
     const fetchApi = async () => {
       const response = await getListTopic();
-      if(response) {
-        setData(response);
+      if(response.code === 200) {
+        setData(response.data);
+      } else {
+        messageApi.open({
+          type: 'error',
+          content: "An error occurred during Fetch API!",
+        });
       }
     }
     fetchApi();
@@ -19,6 +25,7 @@ function Home () {
 
   return (
     <>
+      {contextHolder}
       <div className="welcome">
         <div className="welcome__content">
           <h1>Test Your Programming Knowledge</h1>
@@ -39,13 +46,13 @@ function Home () {
         >
           {data.length > 0 && (
             data.map(item => (
-              <div className="explore__item" key={item.id}>
+              <div className="explore__item" key={item._id}>
                 <div className="explore__image">
                   <img alt={item.name} src={item.thumbnail}/>
                 </div>
                 <div className="explore__content">
                   <Button className="explore__topic button__practice" size="large">
-                    <Link to={`/quiz/${item.id}`}>Practice</Link>
+                    <Link to={`/quiz/${item._id}`}>Practice</Link>
                   </Button>
                 </div>
               </div>

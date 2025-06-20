@@ -7,4 +7,6 @@ route.get('/', controller.index);
 
 route.get('/:id', controller.detail);
 
+route.post('/', controller.post);
+
 module.exports = route;

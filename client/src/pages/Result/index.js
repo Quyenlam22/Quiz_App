@@ -14,23 +14,27 @@ function Result () {
   useEffect(() => {
     const fetchApi = async () => {
       const response = await getAnswer(params.id);
-      const dataQuestions = await getListQuestion(response.topicId);
-      let result = [];
+      if(response.code === 200){
+        const dataQuestions = await getListQuestion(response.data.topicId);
+        let result = [];
+        
+        if(dataQuestions.code === 200) {
+          for(let i = 0; i < dataQuestions.data.length; i++) {
+            result.push({
+              ...dataQuestions.data[i],
+              ...response.data.answers.find(item => item.questionId === dataQuestions.data[i]._id)
+            })
+          }
+          
+          const values = {};
+          result.forEach(item => {
+            values[item.id] = item.answer;
+          });
+          form.setFieldsValue(values);
 
-      for(let i = 0; i < dataQuestions.length; i++) {
-        result.push({
-          ...dataQuestions[i],
-          ...response.answers.find(item => item.questionId === dataQuestions[i].id)
-        })
+          setData(result);
+        }
       }
-      
-      const values = {};
-      result.forEach(item => {
-        values[item.id] = item.answer;
-      });
-      form.setFieldsValue(values);
-
-      setData(result);
     }
 
     fetchApi();

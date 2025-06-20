@@ -1,5 +1,5 @@
 import { Button, Flex, Form, Input, notification } from 'antd';
-import { checkExits, register } from '../../services/usersService';
+import { createNewUser } from '../../services/usersService';
 import { useNavigate } from 'react-router-dom';
 import { generateRandomString } from '../../utils/generate';
 
@@ -10,43 +10,31 @@ function Register () {
   const [api, contextHolder] = notification.useNotification();
 
   const onFinish = async (values) => {
-    const checkExitsEmail = await checkExits('email', values.email);
-
-    if(checkExitsEmail.length > 0) {
-      api['error']({
-        message: 'Email exists!',
+    const options = {
+      fullName: values.fullName,
+      email: values.email,
+      password: values.password,
+      role: 'CLIENT',
+      token: generateRandomString(30),
+    }
+    const response = await createNewUser(options);
+    if(response.code === 200) {
+      api['success']({
+        message: 'Register successfully!',
         duration: 1.5,
         description:
-          'Email already exists in the system!',
+          'Please login to continue the experience!',
       });
+      setTimeout(() => {
+        navigate("/login");
+      }, 500)
     }
     else {
-      const options = {
-        fullName: values.fullName,
-        email: values.email,
-        password: values.password,
-        token: generateRandomString(30),
-      }
-      const response = await register(options);
-      if(response) {
-        api['success']({
-          message: 'Register successfully!',
-          duration: 1.5,
-          description:
-            'Please login to continue the experience!',
-        });
-        setTimeout(() => {
-          navigate("/login");
-        }, 500)
-      }
-      else {
-        api['error']({
-          message: 'Register fail!',
-          duration: 1.5,
-          description:
-            'There was an error during registration!',
-        });
-      }
+      api['error']({
+        message: 'Register fail!',
+        duration: 1.5,
+        description: response.message,
+      });
     }
   };
   const onFinishFailed = errorInfo => {

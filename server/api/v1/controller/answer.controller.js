@@ -4,13 +4,22 @@ const Answer = require("../models/answer.model")
 module.exports.index = async ( req, res ) => {
   try {
     const answers = await Answer.find({
+      userId: req.query.userId,
       deleted: false
     });
 
-    res.json({
-      code: 200,
-      data: answers
-    });
+    if(answers.length > 0) {
+      res.json({
+        code: 200,
+        data: answers
+      });
+    }
+    else {
+      res.json({
+        code: 400,
+        message: "Not found list answers!"
+      });
+    }
   } catch (error) {
     res.json({
       code: 400,

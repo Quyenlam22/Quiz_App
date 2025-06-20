@@ -7,9 +7,9 @@ import { getListTopic } from '../../services/topicService';
 
 const columns = [
   {
-    title: 'ID',
-    dataIndex: 'id',
-    key: 'id',
+    title: 'STT',
+    dataIndex: 'key',
+    key: 'key',
   },
   {
     title: 'Name',
@@ -33,27 +33,30 @@ function Answers () {
       const answersByUserId = await getListAnswersByUserId(Cookies.get("id"));
       const topics = await getListTopic();
 
-      let result = [];
-      for (let i = 0; i < answersByUserId.length; i++) {
-        result.push({
-          ...topics.find(item => item.id === answersByUserId[i].topicId),
-          ...answersByUserId[i]
-        })
+      if(answersByUserId.code === 200 && topics.code === 200){
+        let result = [];
+        for (let i = 0; i < answersByUserId.data.length; i++) {
+          result.push({
+            ...topics.data.find(item => item._id === answersByUserId.data[i].topicId),
+            ...answersByUserId.data[i]
+          })
+        }
+        setData(result.reverse());
       }
-      setData(result.reverse());
+      
     }
     fetchApi();
   }, [])
 
-  const dataSource = data.map(item => {
+  const dataSource = data.map((item, index) => {
     return {
-      key: item.id,
-      id: item.id,
+      key: (index + 1),
+      id: item._id,
       name: item.name,
       detail: (
         <>
           <Button className="button__practice">
-            <Link to={`/result/${item.id}`}>Detail</Link>
+            <Link to={`/result/${item._id}`}>Detail</Link>
           </Button>
         </>
       )

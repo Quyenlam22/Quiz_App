@@ -3,9 +3,9 @@ const mongoose = require('mongoose');
 const answerSchema = new mongoose.Schema({
   userId: String,
   topicId: String,
-  answer: [
+  answers: [
     {
-      "questionId": Number,
+      "questionId": String,
       "answer": Number
     }
   ],

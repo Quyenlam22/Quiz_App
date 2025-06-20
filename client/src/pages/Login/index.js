@@ -13,18 +13,23 @@ function Login () {
   const [api, contextHolder] = notification.useNotification();
 
   const onFinish = async (values) => {
-    const { email, password } = values;
-    const response = await login(email, password);
-    if(response.length > 0) {
-      Cookies.set('id', response[0].id);
-      Cookies.set('token', response[0].token);
-      Cookies.set('fullName', response[0].fullName);
+    const options = { 
+      email: values.email, 
+      password: values.password,
+      role: "CLIENT"
+    };
+    
+    const response = await login(options);
+    if(response.code === 200) {
+      Cookies.set('id', response.user._id);
+      Cookies.set('token', response.user.token);
+      Cookies.set('fullName', response.user.fullName);
       dispatch(checkLogin(true));
       api['success']({
         message: 'Login successfully!',
         duration: 1.5,
         description:
-          `Hello ${response[0].fullName}!`,
+          `Hello ${response.user.fullName}!`,
       });
       setTimeout(() => {
         navigate("/");

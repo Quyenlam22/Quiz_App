@@ -6,6 +6,6 @@ export const getListTopic = async () => {
 }
 
 export const getTopic = async (id) => {
-    const result = await get(`topics?id=${id}`);
+    const result = await get(`topics/${id}`);
     return result;
 }

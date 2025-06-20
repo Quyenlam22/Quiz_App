@@ -4,9 +4,16 @@ import { Button, Flex, Layout } from 'antd'
 import Cookies from 'js-cookie';
 import { BankOutlined, ClockCircleOutlined, CreditCardOutlined, EnvironmentOutlined, FacebookOutlined, IdcardOutlined, InstagramOutlined, MailOutlined, PhoneOutlined, PinterestOutlined, TwitterOutlined } from "@ant-design/icons";
 import { Footer } from "antd/es/layout/layout";
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
 function LayoutDefault () {
-    const token = Cookies.get("token");
+    const [token, setToken] = useState();
+    const isLogin = useSelector(state => state.loginReducer);
+
+    useEffect(() => {
+        setToken(Cookies.get("token"));
+    }, [isLogin])
 
     const navLinkActive = (e) => {
         return e.isActive ? "menu__link menu__link--active" : "menu__link";
@@ -130,7 +137,7 @@ function LayoutDefault () {
 
                         <Flex justify="space-between">
                             <div className="footer__copyright__content">
-                                Copyright ©{new Date().getFullYear()} Created by Group 8
+                                Copyright ©{new Date().getFullYear()} Created by Quyenn22
                             </div>
                             <Flex align="center" justify="space-between">
                                 <Link to="/" className="footer__copyright__terms">Privacy Policy</Link>

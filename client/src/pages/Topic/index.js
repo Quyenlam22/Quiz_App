@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom';
 
 const columns = [
   {
-    title: 'ID',
-    dataIndex: 'id',
-    key: 'id',
+    title: 'STT',
+    dataIndex: 'key',
+    key: 'key',
   },
   {
     title: 'Name',
@@ -29,20 +29,22 @@ function Topic () {
   useEffect(() => {
     const fetchApi = async () => {
       const response = await getListTopic();
-      setData(response);
+      if(response.code === 200) {
+        setData(response.data);
+      }
     }
     fetchApi();
   }, [])
 
-  const dataSource = data.map(item => {
+  const dataSource = data.map((item, index) => {
     return {
-      key: item.id,
-      id: item.id,
+      key: index + 1,
+      id: item._id,
       name: item.name,
       actions: (
         <>
           <Button className="button__practice">
-            <Link to={`/quiz/${item.id}`}>Practice</Link>
+            <Link to={`/quiz/${item._id}`}>Practice</Link>
           </Button>
         </>
       )
