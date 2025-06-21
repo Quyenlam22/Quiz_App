@@ -1,6 +1,6 @@
 import { Button, Checkbox, Flex, Form, Input, notification } from 'antd';
 import { login } from '../../services/usersService';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { useDispatch } from "react-redux";
 import { checkLogin } from '../../actions/login';
@@ -78,7 +78,10 @@ function Login () {
             <Input.Password placeholder='Enter your password' />
           </Form.Item>
           <Form.Item name="remember" valuePropName="checked" label={null}>
-            <Checkbox>Remember me</Checkbox>
+            <Flex justify='space-between'>
+              <Checkbox>Remember me</Checkbox>
+              <Link to={'/user/forgot-password'}>Forgot password?</Link>
+            </Flex>
           </Form.Item>
           <Form.Item label={null}>
             <Button size='large' type="primary" htmlType="submit">

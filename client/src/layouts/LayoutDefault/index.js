@@ -56,7 +56,7 @@ function LayoutDefault () {
                             {token ? (
                                 <>
                                     <Button className="mr-5 button__auth">
-                                        <NavLink to="/info-user">{Cookies.get("fullName")}</NavLink>
+                                        <NavLink to="/users/info">{Cookies.get("fullName")}</NavLink>
                                     </Button>
                                     <Button className="button__auth">
                                         <NavLink to="/logout">Đăng xuất</NavLink>

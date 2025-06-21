@@ -8,6 +8,10 @@ import Quiz from "../pages/Quiz";
 import Result from "../pages/Result";
 import PrivateRoutes from "../components/PrivateRoutes/index";
 import Logout from "../pages/Logout";
+import ForgotPassword from "../pages/ForgotPassword";
+import OtpPassword from "../pages/ForgotPassword/OtpPassword";
+import ResetPassword from "../pages/ForgotPassword/ResetPassword";
+import InfoUser from "../pages/InfoUser";
 
 export const routes = [
     {
@@ -23,6 +27,23 @@ export const routes = [
                 element: <Login/>,
             },
             {
+                path: "/user",
+                children: [
+                    {
+                        path: "forgot-password",
+                        element: <ForgotPassword/>
+                    },
+                    {
+                        path: "otp-password",
+                        element: <OtpPassword/>
+                    },
+                    {
+                        path: "reset-password",
+                        element: <ResetPassword/>
+                    }
+                ]
+            },
+            {
                 path: "/register",
                 element: <Register/>,
             },
@@ -33,6 +54,10 @@ export const routes = [
             {
                 element: <PrivateRoutes/>,
                 children: [
+                    {
+                        path: "/users/info",
+                        element: <InfoUser/>
+                    },
                     {
                         path: "/topics",
                         element: <Topic/>,
