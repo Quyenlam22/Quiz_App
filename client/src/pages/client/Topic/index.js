@@ -1,6 +1,6 @@
 import { Button, Table } from 'antd';
 import { useEffect, useState } from 'react';
-import { getListTopic } from "../../services/topicService";
+import { getListTopic } from "../../../services/topicService";
 import { Link } from 'react-router-dom';
 
 const columns = [
@@ -44,7 +44,7 @@ function Topic () {
       actions: (
         <>
           <Button className="button__practice">
-            <Link to={`/quiz/${item._id}`}>Practice</Link>
+            <Link to={`/quiz/${item.slug}`}>Practice</Link>
           </Button>
         </>
       )

@@ -1,6 +1,6 @@
 import { Button, Flex, Form, Input, notification } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { otpPassword } from '../../services/usersService';
+import { otpPassword } from '../../../services/usersService';
 
 const rules = [{ required: true, message: 'Please fill in this field!' }]
 

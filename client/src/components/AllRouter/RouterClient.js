@@ -1,7 +1,7 @@
 import { useRoutes } from "react-router-dom";
-import { routes } from "../../routes/index";
+import { routes } from "../../routes/clients/index";
 
-function AllRoutes() {
+function RouterClient() {
     const elements = useRoutes(routes);
 
     return (
@@ -11,4 +11,4 @@ function AllRoutes() {
     )
 }
 
-export default AllRoutes;
+export default RouterClient;

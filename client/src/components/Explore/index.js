@@ -1,10 +1,9 @@
 import { Button, Carousel, Flex, message } from "antd";
-import './Home.scss';
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getListTopic } from "../../services/topicService";
 
-function Home () {
+function Explore () {
   const [data, setData] = useState([]);
   const [messageApi, contextHolder] = message.useMessage();
   
@@ -21,21 +20,11 @@ function Home () {
       }
     }
     fetchApi();
-  }, [])
+  }, [messageApi])
 
   return (
     <>
       {contextHolder}
-      <div className="welcome">
-        <div className="welcome__content">
-          <h1>Test Your Programming Knowledge</h1>
-          <p className="welcome__desc">Challenge yourself with our curated collection of puzzles about programming languages. From basic to advanced, test your knowledge and discover new insights along this journey.</p>
-          <Button className="button__practice" size="large">
-            <Link to={'/topics'}>Start Quiz</Link>
-          </Button>
-        </div>
-      </div>
-
       <Flex vertical justify="center" className="explore">
         <h2 className="explore__title">Explore More Quiz Categories</h2>
         <Carousel 
@@ -64,4 +53,4 @@ function Home () {
   )
 }
 
-export default Home;
+export default Explore;

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getTopic } from "../../services/topicService";
-import { getListQuestion } from "../../services/questionService";
+import { getTopic } from "../../../services/topicService";
+import { getListQuestion } from "../../../services/questionService";
 import { Button, Form, message, Radio } from "antd";
 import Cookies from 'js-cookie';
-import { createAnswer } from "../../services/quizService";
+import { createAnswer } from "../../../services/quizService";
 
 function Quiz () {
   const params = useParams();
@@ -15,24 +15,18 @@ function Quiz () {
 
   useEffect(() => {
     const fetchApi = async () => {
-      const response = await getTopic(params.id);
+      const response = await getTopic(params.slug);
       if(response.code === 200) {
         setData(response.data);
+        const dataQuestions = await getListQuestion(response.data._id);
+        if(dataQuestions.code === 200) {
+          setQuestions(dataQuestions.data);
+        }
       }
     }
     fetchApi();
-  }, [params.id])
-
-  useEffect(() => {
-    const fetchApi = async () => {
-      const response = await getListQuestion(params.id);
-      if(response.code === 200) {
-        setQuestions(response.data);
-      }
-    }
-    fetchApi();
-  }, [params.id])
-
+  }, [params.slug])
+  
   const handleSubmit = async (values) => {
     const answers = Object.entries(values).map(([questionId, answerIndex]) => ({
       questionId: questionId,
@@ -41,7 +35,7 @@ function Quiz () {
 
     const options = {
       userId: Cookies.get('id'),
-      topicId: params.id,
+      topicId: data._id,
       answers: answers
     }
 

@@ -1,9 +1,9 @@
 import { Button, Table } from 'antd';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getListAnswersByUserId } from '../../services/answersService';
+import { getListAnswersByUserId } from '../../../services/answersService';
 import Cookies from 'js-cookie';
-import { getListTopic } from '../../services/topicService';
+import { getListTopic } from '../../../services/topicService';
 
 const columns = [
   {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { getAnswer } from "../../services/answersService";
+import { getAnswer } from "../../../services/answersService";
 import { useNavigate, useParams } from 'react-router-dom';
-import { getListQuestion } from "../../services/questionService";
+import { getListQuestion } from "../../../services/questionService";
 import { Form, Button, Radio, Tag, Statistic, Flex } from "antd";
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 function Result () {

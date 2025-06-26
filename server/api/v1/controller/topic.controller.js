@@ -19,13 +19,12 @@ module.exports.index = async (req, res) => {
   }
 }
 
-// [GET] /api/v1/topics/:id
+// [GET] /api/v1/topics/:slug
 module.exports.detail = async (req, res) => {
-  const id = req.params.id;
-
+  const slug = req.params.slug;
   try {
     const topic = await Topic.findOne({
-      _id: id,
+      slug: slug,
       deleted: false
     });
 

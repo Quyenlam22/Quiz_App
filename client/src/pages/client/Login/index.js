@@ -1,9 +1,9 @@
 import { Button, Checkbox, Flex, Form, Input, notification } from 'antd';
-import { login } from '../../services/usersService';
+import { login } from '../../../services/usersService';
 import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { useDispatch } from "react-redux";
-import { checkLogin } from '../../actions/login';
+import { checkLogin } from '../../../actions/login';
 
 const rules = [{ required: true, message: 'Please fill in this field!' }]
 

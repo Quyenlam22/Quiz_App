@@ -1,16 +1,23 @@
 import { Link, NavLink, Outlet } from "react-router-dom";
-import './LayoutDefault.scss';
-import { Button, Flex, Layout } from 'antd'
+import './LayoutClient.scss';
+import { Button, Flex, Layout, Modal, QRCode } from 'antd'
 import Cookies from 'js-cookie';
 import { BankOutlined, ClockCircleOutlined, CreditCardOutlined, EnvironmentOutlined, FacebookOutlined, IdcardOutlined, InstagramOutlined, MailOutlined, PhoneOutlined, PinterestOutlined, TwitterOutlined } from "@ant-design/icons";
 import { Footer } from "antd/es/layout/layout";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
-function LayoutDefault () {
+function LayoutClient () {
     const [token, setToken] = useState();
     const isLogin = useSelector(state => state.loginReducer);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
     useEffect(() => {
         setToken(Cookies.get("token"));
     }, [isLogin])
@@ -85,11 +92,21 @@ function LayoutDefault () {
                                     <div className="footer__box__content">
                                         <p>Your top destination for programming knowledge.</p>
                                         <div className="footer__box__icons">
-                                            <Link className="footer__box__icon"><FacebookOutlined /></Link>
+                                            <Link className="footer__box__icon" onClick={showModal}><FacebookOutlined /></Link>
                                             <Link className="footer__box__icon"><TwitterOutlined /></Link>
                                             <Link className="footer__box__icon"><InstagramOutlined /></Link>
                                             <Link className="footer__box__icon"><PinterestOutlined /></Link>
-                                    </div>
+                                            <Modal
+                                                open={isModalOpen}
+                                                closable={false}
+                                                footer={null}
+                                                onCancel={handleCancel}
+                                            >
+                                                <Flex justify="center">
+                                                    <QRCode size={300} type="canvas" value="https://www.facebook.com/daoquyen220704" />
+                                                </Flex>
+                                            </Modal>
+                                        </div>
                                     </div>    
                                 </div>
                                 <div className="footer__box">
@@ -115,15 +132,15 @@ function LayoutDefault () {
                                     <ul className="footer__box__content">
                                         <li className="flex items-start">
                                             <EnvironmentOutlined className="mr-1" />
-                                            <span className="text-gray-400"> 123 Bac Tu Liem, Ha Noi, Viet Nam</span>
+                                            <span className="text-gray-400"> Ha Noi, Viet Nam</span>
                                         </li>
                                         <li className="flex items-center">
                                             <PhoneOutlined className="mr-1" />
-                                            <span className="text-gray-400"> +1 (555) 123-4567</span>
+                                            <span className="text-gray-400"> 0358374096</span>
                                         </li>
                                         <li className="flex items-center">
                                             <MailOutlined className="mr-1" />
-                                            <span className="text-gray-400"> support@eduquiz.com</span>
+                                            <span className="text-gray-400"> ledaoquyen10a5@gmail.com</span>
                                         </li>
                                         <li className="flex items-center">
                                             <ClockCircleOutlined className="mr-1" />
@@ -156,4 +173,4 @@ function LayoutDefault () {
     );
 }
 
-export default LayoutDefault;
+export default LayoutClient;

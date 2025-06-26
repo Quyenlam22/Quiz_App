@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 import { message } from "antd";
 import { useEffect, useState } from "react";
 
-function PrivateRoutes() {
+function PrivateRouteClient() {
     const token = Cookies.get('token');
     const [messageApi, contextHolder] = message.useMessage();
     const [redirect, setRedirect] = useState(false);
@@ -26,4 +26,4 @@ function PrivateRoutes() {
     )
 }
 
-export default PrivateRoutes;
+export default PrivateRouteClient;

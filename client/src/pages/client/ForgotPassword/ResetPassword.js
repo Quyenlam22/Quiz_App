@@ -1,30 +1,30 @@
 import { Button, Flex, Form, Input, notification } from 'antd';
-import { useNavigate } from 'react-router-dom';
-import { forgotPassword } from '../../services/usersService';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { resetPassword } from '../../../services/usersService';
 
 const rules = [{ required: true, message: 'Please fill in this field!' }]
 
-function ForgotPassword () {
+function ResetPassword () {
   const navigate = useNavigate();
+  const location = useLocation();
+  const email = location.state.email;
+  
   const [api, contextHolder] = notification.useNotification();
 
   const onFinish = async (values) => {
-    const options = { 
-      email: values.email, 
-      role: "CLIENT"
-    };
-    
-    const response = await forgotPassword(options);
-    
+    const response = await resetPassword(values);
     if(response.code === 200) {
-      navigate("/user/otp-password", {
-        state: { email: values.email }
+      api['success']({
+        message: 'Reset password successfully!',
+        duration: 0.5,
       });
+      setTimeout(() => {
+        navigate("/login");
+      }, 500);
     }
- 
     else {
       api['error']({
-        message: 'Check email failed!',
+        message: 'Reset password failed!',
         duration: 1.5,
         description: response.message,
       });
@@ -37,11 +37,12 @@ function ForgotPassword () {
     <>
       {contextHolder}
       <Flex vertical align='center' justify='center'>
-        <h2>Forgot Password</h2>
+        <h2>Reset Password</h2>
         <Form
           name="login"
-          wrapperCol={{ span: 20 }}
-          labelCol={{ span: 4 }}
+          wrapperCol={{ span: 16 }}
+          labelCol={{ span: 8 }}
+          initialValues={{email: email}}
           labelAlign='left'
           style={{ minWidth: 500 }}
           onFinish={onFinish}
@@ -52,11 +53,25 @@ function ForgotPassword () {
             name="email"
             rules={rules}
           >
-            <Input placeholder="Enter your email" />
+            <Input disabled />
+          </Form.Item>
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={rules}
+          >
+            <Input.Password />
+          </Form.Item>
+          <Form.Item
+            label="Confirm Password"
+            name="confirmPassword"
+            rules={rules}
+          >
+            <Input.Password />
           </Form.Item>
           <Form.Item label={null}>
             <Button size='large' type="primary" htmlType="submit">
-              Check Email
+              Update
             </Button>
           </Form.Item>
         </Form>
@@ -65,4 +80,4 @@ function ForgotPassword () {
   )
 }
 
-export default ForgotPassword;
+export default ResetPassword;

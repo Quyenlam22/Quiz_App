@@ -1,22 +1,22 @@
-import LayoutDefault from "../layouts/LayoutDefault";
-import Home from "../pages/Home";
-import Topic from "../pages/Topic";
-import Answers from "../pages/Answers";
-import Login from "../pages/Login";
-import Register from "../pages/Register";
-import Quiz from "../pages/Quiz";
-import Result from "../pages/Result";
-import PrivateRoutes from "../components/PrivateRoutes/index";
-import Logout from "../pages/Logout";
-import ForgotPassword from "../pages/ForgotPassword";
-import OtpPassword from "../pages/ForgotPassword/OtpPassword";
-import ResetPassword from "../pages/ForgotPassword/ResetPassword";
-import InfoUser from "../pages/InfoUser";
+import LayoutClient from "../../layouts/LayoutClient";
+import Home from "../../pages/client/Home";
+import Topic from "../../pages/client/Topic";
+import Answers from "../../pages/client/Answers";
+import Login from "../../pages/client/Login";
+import Register from "../../pages/client/Register";
+import Quiz from "../../pages/client/Quiz";
+import Result from "../../pages/client/Result";
+import PrivateRouteClient from "../../components/PrivateRoutes/PrivateRouteClient";
+import Logout from "../../pages/client/Logout";
+import ForgotPassword from "../../pages/client/ForgotPassword";
+import OtpPassword from "../../pages/client/ForgotPassword/OtpPassword";
+import ResetPassword from "../../pages/client/ForgotPassword/ResetPassword";
+import InfoUser from "../../pages/client/InfoUser";
 
 export const routes = [
     {
         path: "/",
-        element: <LayoutDefault/>,
+        element: <LayoutClient/>,
         children: [
             {
                 path: "/",
@@ -52,7 +52,7 @@ export const routes = [
                 element: <Logout/>,
             },
             {
-                element: <PrivateRoutes/>,
+                element: <PrivateRouteClient/>,
                 children: [
                     {
                         path: "/users/info",
@@ -67,7 +67,7 @@ export const routes = [
                         element: <Answers/>,
                     },
                     {
-                        path: "/quiz/:id",
+                        path: "/quiz/:slug",
                         element: <Quiz/>,
                     },
                     {

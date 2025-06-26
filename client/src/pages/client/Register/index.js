@@ -1,7 +1,7 @@
 import { Button, Flex, Form, Input, notification } from 'antd';
-import { createNewUser } from '../../services/usersService';
+import { createNewUser } from '../../../services/usersService';
 import { useNavigate } from 'react-router-dom';
-import { generateRandomString } from '../../utils/generate';
+import { generateRandomString } from '../../../utils/generate';
 
 const rules = [{ required: true, message: 'Please fill in this field!' }]
 

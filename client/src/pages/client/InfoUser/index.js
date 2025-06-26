@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { infoUser, updateInfoUser } from "../../services/usersService";
+import { infoUser, updateInfoUser } from "../../../services/usersService";
 import Cookies from 'js-cookie';
 import { Button, Form, Input, notification } from "antd";
 
@@ -29,7 +29,7 @@ function InfoUser() {
     }
 
     fetchApi();
-  }, [])
+  }, [api, form])
 
   const onFinish = async (values) => {
     const options = {

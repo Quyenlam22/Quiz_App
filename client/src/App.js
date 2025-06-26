@@ -1,10 +1,10 @@
-import AllRoutes from './components/AllRouter';
+import RouterClient from './components/AllRouter/RouterClient';
 import './App.css';
 
 function App() {
   return (
     <>
-      <AllRoutes/>
+      <RouterClient/>
     </>
   );
 }
