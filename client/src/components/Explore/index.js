@@ -41,7 +41,7 @@ function Explore () {
                 </div>
                 <div className="explore__content">
                   <Button className="explore__topic button__practice" size="large">
-                    <Link to={`/quiz/${item._id}`}>Practice</Link>
+                    <Link to={`/quiz/${item.slug}`}>Practice</Link>
                   </Button>
                 </div>
               </div>

@@ -7,4 +7,6 @@ route.get('/', controller.index);
 
 route.get('/:slug', controller.detail);
 
+route.get('/info/:id', controller.infoTopic);
+
 module.exports = route;

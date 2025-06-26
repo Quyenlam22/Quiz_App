@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { getAnswer } from "../../../services/answersService";
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getListQuestion } from "../../../services/questionService";
 import { Form, Button, Radio, Tag, Statistic, Flex } from "antd";
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import { getTopicById } from "../../../services/topicService";
 function Result () {
   const params = useParams();
   const [data, setData] = useState([]);
+  const [topic, setTopic] = useState({});
   const [ form ] = Form.useForm();
   const navigate = useNavigate();
   const [correctAnswer, setCorrectAnswer] = useState(0);
@@ -15,6 +17,11 @@ function Result () {
     const fetchApi = async () => {
       const response = await getAnswer(params.id);
       if(response.code === 200){
+        const dataTopic = await getTopicById(response.data.topicId);
+        if(dataTopic.code === 200) {
+          setTopic(dataTopic.data);
+        }
+
         const dataQuestions = await getListQuestion(response.data.topicId);
         let result = [];
         
@@ -50,11 +57,10 @@ function Result () {
       }
     }
     setCorrectAnswer(cnt);
-  }, [data]);
-
+  }, [data]);  
 
   const handleSubmit = async () => {
-    navigate(`/quiz/${data[0].topicId}`);
+    navigate(`/quiz/${topic.slug}`);
   }
     
   return (
@@ -89,7 +95,7 @@ function Result () {
           onFinish={handleSubmit}
         >
           {data && data.map((item, index) => (
-            <div className="form-answer__item" key={item.id}>
+            <div className="form-answer__item" key={item._id}>
               <p>
                 Question {index + 1}: {item.question}
                 {item.correctAnswer === item.answer ? (
@@ -110,8 +116,6 @@ function Result () {
                     disabled
                     style={{ display: "flex", gap: "16px", flexDirection: "column" }}
                   /> */}
-
-                  {/* 1h05 */}
                   <Radio.Group disabled value={item.answer}>
                     {item.answers.map((ans, idx) => {
                       let style = {};
@@ -138,6 +142,9 @@ function Result () {
           )}
           <Form.Item>
             <Button size="large" variant="solid" color="purple" htmlType="submit">Practice Again</Button>
+            <Button className="ml-20" size="large" type="primary">
+              <Link to="/">Home</Link>
+            </Button>
           </Form.Item>
         </Form>
       </div>

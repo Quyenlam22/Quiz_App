@@ -39,3 +39,24 @@ module.exports.detail = async (req, res) => {
     });
   }
 }
+
+// [GET] /api/v1/topics/info/:id
+module.exports.infoTopic = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const topic = await Topic.findOne({
+      _id: id,
+      deleted: false
+    });
+
+    res.json({
+      code: 200,
+      data: topic
+    });
+  } catch (error) {
+    res.json({
+      code: 400,
+      message: error
+    });
+  }
+}
