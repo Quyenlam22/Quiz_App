@@ -12,12 +12,17 @@ import ForgotPassword from "../../pages/client/ForgotPassword";
 import OtpPassword from "../../pages/client/ForgotPassword/OtpPassword";
 import ResetPassword from "../../pages/client/ForgotPassword/ResetPassword";
 import InfoUser from "../../pages/client/InfoUser";
+import Error404 from "../../pages/Error404";
 
 export const routes = [
     {
         path: "/",
         element: <LayoutClient/>,
         children: [
+            {
+                path: "*",
+                element: <Error404/>,
+            },
             {
                 path: "/",
                 element: <Home/>,
