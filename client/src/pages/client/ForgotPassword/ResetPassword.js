@@ -1,4 +1,4 @@
-import { Button, Flex, Form, Input, notification } from 'antd';
+import { Button, Flex, Form, Input, message } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { resetPassword } from '../../../services/usersService';
 
@@ -9,25 +9,18 @@ function ResetPassword () {
   const location = useLocation();
   const email = location.state.email;
   
-  const [api, contextHolder] = notification.useNotification();
+  const [api, contextHolder] = message.useMessage();
 
   const onFinish = async (values) => {
     const response = await resetPassword(values);
     if(response.code === 200) {
-      api['success']({
-        message: 'Reset password successfully!',
-        duration: 0.5,
-      });
+      api.success('Reset password successfully!');
       setTimeout(() => {
         navigate("/login");
       }, 500);
     }
     else {
-      api['error']({
-        message: 'Reset password failed!',
-        duration: 1.5,
-        description: response.message,
-      });
+      api.error(response.message);
     }
   };
   const onFinishFailed = errorInfo => {
@@ -39,12 +32,11 @@ function ResetPassword () {
       <Flex vertical align='center' justify='center'>
         <h2>Reset Password</h2>
         <Form
-          name="login"
-          wrapperCol={{ span: 16 }}
-          labelCol={{ span: 8 }}
+          name="reset-password"
+          wrapperCol={{ span: 14 }}
+          labelCol={{ span: 10 }}
           initialValues={{email: email}}
           labelAlign='left'
-          style={{ minWidth: 500 }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
         >

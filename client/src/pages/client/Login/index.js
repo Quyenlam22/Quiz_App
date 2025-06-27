@@ -1,4 +1,4 @@
-import { Button, Checkbox, Flex, Form, Input, notification } from 'antd';
+import { Button, Checkbox, Flex, Form, Input, message } from 'antd';
 import { login } from '../../../services/usersService';
 import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
@@ -10,7 +10,7 @@ const rules = [{ required: true, message: 'Please fill in this field!' }]
 function Login () {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [api, contextHolder] = notification.useNotification();
+  const [api, contextHolder] = message.useMessage();
 
   const onFinish = async (values) => {
     const options = { 
@@ -25,24 +25,14 @@ function Login () {
       Cookies.set('token', response.user.token);
       Cookies.set('fullName', response.user.fullName);
       dispatch(checkLogin(true));
-      api['success']({
-        message: 'Login successfully!',
-        duration: 1.5,
-        description:
-          `Hello ${response.user.fullName}!`,
-      });
+      api.success(`Hello ${response.user.fullName}!`);
       setTimeout(() => {
         navigate("/");
       }, 500)
     }
  
     else {
-      api['error']({
-        message: 'Login failed!',
-        duration: 1.5,
-        description:
-          `Email or password is not correct!`,
-      });
+      api.error(`Email or password is not correct!`,);
     }
   };
   const onFinishFailed = errorInfo => {
@@ -55,10 +45,9 @@ function Login () {
         <h2>Login</h2>
         <Form
           name="login"
-          wrapperCol={{ span: 20 }}
-          labelCol={{ span: 4 }}
+          wrapperCol={{ span: 16 }}
+          labelCol={{ span: 8 }}
           labelAlign='left'
-          style={{ minWidth: 500 }}
           initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
@@ -77,10 +66,14 @@ function Login () {
           >
             <Input.Password placeholder='Enter your password' />
           </Form.Item>
-          <Form.Item name="remember" valuePropName="checked" label={null}>
-            <Flex justify='space-between'>
+          <Form.Item
+            name="remember"
+            valuePropName="checked"
+            wrapperCol={{ span: 24 }}
+          >
+            <Flex justify="space-between" align="center">
               <Checkbox>Remember me</Checkbox>
-              <Link to={'/user/forgot-password'}>Forgot password?</Link>
+              <Link to="/user/forgot-password">Forgot password?</Link>
             </Flex>
           </Form.Item>
           <Form.Item label={null}>

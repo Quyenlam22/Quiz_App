@@ -1,8 +1,8 @@
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import './LayoutClient.scss';
-import { Button, Flex, Layout, Modal, QRCode } from 'antd'
+import { Button, Dropdown, Flex, Layout, Modal, QRCode } from 'antd'
 import Cookies from 'js-cookie';
-import { BankOutlined, ClockCircleOutlined, CreditCardOutlined, EnvironmentOutlined, FacebookOutlined, IdcardOutlined, InstagramOutlined, MailOutlined, PhoneOutlined, PinterestOutlined, TwitterOutlined } from "@ant-design/icons";
+import { BankOutlined, ClockCircleOutlined, CreditCardOutlined, EnvironmentOutlined, FacebookOutlined, IdcardOutlined, InstagramOutlined, MailOutlined, PhoneOutlined, PinterestOutlined, TwitterOutlined, UserOutlined } from "@ant-design/icons";
 import { Footer } from "antd/es/layout/layout";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -11,7 +11,7 @@ function LayoutClient () {
     const [token, setToken] = useState();
     const isLogin = useSelector(state => state.loginReducer);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
+    const navigate = useNavigate();
     const showModal = () => {
         setIsModalOpen(true);
     };
@@ -25,6 +25,28 @@ function LayoutClient () {
     const navLinkActive = (e) => {
         return e.isActive ? "menu__link menu__link--active" : "menu__link";
     }
+
+    const login = [
+        {
+            key: "users/info",
+            label: <span onClick={() => navigate("/users/info")}>Account information</span>
+        },
+        {
+            key: "logout",
+            label: <span onClick={() => navigate("/logout")}>Logout</span>
+        }
+    ]
+
+    const unLogin = [
+        {
+            key: "login",
+            label: <span onClick={() => navigate("/login")}>Login</span>
+        },
+        {
+            key: "register",
+            label: <span onClick={() => navigate("/register")}>Register</span>
+        }
+    ]
 
     return (
         <>
@@ -79,6 +101,11 @@ function LayoutClient () {
                                     </Button>
                                 </>
                             )}
+                        </div>
+                        <div className="layout-default__sub-account">
+                            <Dropdown menu={{ items: token ? login : unLogin }} placement="bottom">
+                                <Button className="button__auth">{Cookies.get("fullName") ? Cookies.get("fullName") : <UserOutlined />}</Button>
+                            </Dropdown>
                         </div>
                     </header> 
                     <main className="layout-default__main">
@@ -152,7 +179,7 @@ function LayoutClient () {
                         </div>
                         <hr/>
 
-                        <Flex justify="space-between">
+                        <Flex justify="space-between" align="center">
                             <div className="footer__copyright__content">
                                 Copyright ©{new Date().getFullYear()} Created by Quyenn22
                             </div>

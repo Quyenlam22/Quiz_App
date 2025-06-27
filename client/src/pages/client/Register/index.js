@@ -1,13 +1,13 @@
-import { Button, Flex, Form, Input, notification } from 'antd';
+import { Button, Flex, Form, Input, message } from 'antd';
 import { createNewUser } from '../../../services/usersService';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { generateRandomString } from '../../../utils/generate';
 
 const rules = [{ required: true, message: 'Please fill in this field!' }]
 
 function Register () {
   const navigate = useNavigate();
-  const [api, contextHolder] = notification.useNotification();
+  const [api, contextHolder] = message.useMessage();
 
   const onFinish = async (values) => {
     const options = {
@@ -19,22 +19,13 @@ function Register () {
     }
     const response = await createNewUser(options);
     if(response.code === 200) {
-      api['success']({
-        message: 'Register successfully!',
-        duration: 1.5,
-        description:
-          'Please login to continue the experience!',
-      });
+      api.success('Register successfully!\nPlease login to continue the experience!');
       setTimeout(() => {
         navigate("/login");
       }, 500)
     }
     else {
-      api['error']({
-        message: 'Register fail!',
-        duration: 1.5,
-        description: response.message,
-      });
+      api.error(response.message);
     }
   };
   const onFinishFailed = errorInfo => {
@@ -47,9 +38,8 @@ function Register () {
         <h2>Register</h2>
         <Form
           name="register"
-          labelCol={{ span: 4 }}
-          // wrapperCol={{ span: 20 }}
-          style={{ minWidth: 500 }}
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 16 }}
           labelAlign='left'
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
@@ -81,6 +71,7 @@ function Register () {
             </Button>
           </Form.Item>
         </Form>
+        <Link to={"/login"}>You already have an account?</Link>
       </Flex>
     </>
   )

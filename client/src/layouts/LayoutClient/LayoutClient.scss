@@ -1,5 +1,6 @@
 * {
     box-sizing: border-box;
+    overflow-x: clip;
 }
 
 .layout-default {
@@ -18,7 +19,7 @@
     &__logo {
         width: 80px;
         height: auto;
-        aspect-ratio: 4/3;
+        aspect-ratio: 1/1;
 
         img {
             width: 100%;
@@ -29,6 +30,26 @@
 
     &__account {
         margin: 0 5px;
+    }
+
+    &__sub-account {
+        margin: 0 5px;
+        display: none;
+    }
+
+
+    @media (max-width: 767.98px) {
+        &__logo {
+            width: 50px;
+        }
+
+        &__account {
+            display: none;
+        }
+
+        &__sub-account {
+            display: block;
+        }
     }
 
     &__main {
@@ -63,8 +84,20 @@
         }
     }
 
-    &__icons {
-        margin-left: 5px;
+    @media (max-width: 767.98px) {
+        ul {
+            li {
+                margin-left: 15px;
+            }
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        ul {
+            li {
+                margin-left: 10px;
+            }
+        }
     }
 }
 
@@ -102,6 +135,36 @@
         &__terms {
             padding: 0 10px;
             color: #000;
+        }
+    }
+
+    @media (max-width: 767.98px) {
+        font-size: 12px;
+        padding: 0 20px !important;
+
+        &__box {
+            &__icon {
+                padding-right: 5px;
+                font-size: 16px;
+            }
+        }
+
+        &__copyright {
+            &__terms {
+                padding: 10px 5px;
+            }
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        font-size: 10px;
+        padding: 0 10px !important;
+
+        &__box {
+            &__icon {
+                padding-right: 5px;
+                font-size: 12px;
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-import { Button, Flex, Form, Input, notification } from 'antd';
+import { Button, Flex, Form, Input, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { forgotPassword } from '../../../services/usersService';
 
@@ -6,7 +6,7 @@ const rules = [{ required: true, message: 'Please fill in this field!' }]
 
 function ForgotPassword () {
   const navigate = useNavigate();
-  const [api, contextHolder] = notification.useNotification();
+  const [api, contextHolder] = message.useMessage();
 
   const onFinish = async (values) => {
     const options = { 
@@ -23,11 +23,7 @@ function ForgotPassword () {
     }
  
     else {
-      api['error']({
-        message: 'Check email failed!',
-        duration: 1.5,
-        description: response.message,
-      });
+      api.error(response.message);
     }
   };
   const onFinishFailed = errorInfo => {
@@ -39,11 +35,10 @@ function ForgotPassword () {
       <Flex vertical align='center' justify='center'>
         <h2>Forgot Password</h2>
         <Form
-          name="login"
-          wrapperCol={{ span: 20 }}
-          labelCol={{ span: 4 }}
+          name="forgot-password"
+          wrapperCol={{ span: 18 }}
+          labelCol={{ span: 6 }}
           labelAlign='left'
-          style={{ minWidth: 500 }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
         >

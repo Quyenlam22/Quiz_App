@@ -69,7 +69,7 @@ function Result () {
       <Flex gap={"large"}>
         <Statistic
           value={correctAnswer}
-          valueStyle={{ color: '#3f8600' }}
+          valueStyle={{ color: '#3f8600', fontSize: 22 }}
           prefix={(
             <>
               Correct: 
@@ -80,7 +80,7 @@ function Result () {
 
         <Statistic
             value={(correctAnswer / data.length) * 100}
-            valueStyle={{ color: '#3f8600' }}
+            valueStyle={{ color: '#3f8600', fontSize: 22 }}
             prefix={(
               <>
                 Correct ratio: 
@@ -100,11 +100,11 @@ function Result () {
                 Question {index + 1}: {item.question}
                 {item.correctAnswer === item.answer ? (
                   <>
-                    <Tag className="ml-20" icon={<CheckCircleOutlined />} color="success">True</Tag>
+                    <Tag className="ml-10" icon={<CheckCircleOutlined />} color="success">True</Tag>
                   </>
                 ) : (
                   <>
-                    <Tag className="ml-20" icon={<CloseCircleOutlined />} color="error">False</Tag>
+                    <Tag className="ml-10" icon={<CloseCircleOutlined />} color="error">False</Tag>
                   </>
                 )}
               </p>

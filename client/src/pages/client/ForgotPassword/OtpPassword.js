@@ -1,4 +1,4 @@
-import { Button, Flex, Form, Input, notification } from 'antd';
+import { Button, Flex, Form, Input, message } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { otpPassword } from '../../../services/usersService';
 
@@ -8,10 +8,8 @@ function OtpPassword () {
   const navigate = useNavigate();
   const location = useLocation();
   const email = location.state.email;
-  console.log(email);
   
-  
-  const [api, contextHolder] = notification.useNotification();
+  const [api, contextHolder] = message.useMessage();
 
   const onFinish = async (values) => {
     const response = await otpPassword(values);
@@ -24,11 +22,7 @@ function OtpPassword () {
     }
  
     else {
-      api['error']({
-        message: 'Check otp failed!',
-        duration: 1.5,
-        description: response.message,
-      });
+      api.error(response.message);
     }
   };
   const onFinishFailed = errorInfo => {
@@ -40,12 +34,11 @@ function OtpPassword () {
       <Flex vertical align='center' justify='center'>
         <h2>OTP Password</h2>
         <Form
-          name="login"
-          wrapperCol={{ span: 20 }}
-          labelCol={{ span: 4 }}
+          name="otp-password"
+          wrapperCol={{ span: 18 }}
+          labelCol={{ span: 6 }}
           initialValues={{email: email}}
           labelAlign='left'
-          style={{ minWidth: 500 }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
         >

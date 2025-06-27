@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { checkLogin } from "../../../actions/login";
-import { notification } from "antd";
+import { message } from "antd";
 
 function Logout () {
   Cookies.remove("id");
@@ -11,14 +11,11 @@ function Logout () {
   Cookies.remove("token");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [api, contextHolder] = notification.useNotification();
+  const [api, contextHolder] = message.useMessage();
 
   useEffect(() => {
     dispatch(checkLogin(false));
-    api['success']({
-      message: 'Logout successfully!',
-      duration: 1.5,
-    });
+    api.success('Logout successfully!');
     setTimeout(() => {
       navigate("/login");
     }, 500)
