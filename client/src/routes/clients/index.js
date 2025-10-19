@@ -7,7 +7,6 @@ import Register from "../../pages/client/Register";
 import Quiz from "../../pages/client/Quiz";
 import Result from "../../pages/client/Result";
 import PrivateRouteClient from "../../components/PrivateRoutes/PrivateRouteClient";
-import Logout from "../../pages/client/Logout";
 import ForgotPassword from "../../pages/client/ForgotPassword";
 import OtpPassword from "../../pages/client/ForgotPassword/OtpPassword";
 import ResetPassword from "../../pages/client/ForgotPassword/ResetPassword";
@@ -51,10 +50,6 @@ export const routes = [
             {
                 path: "/register",
                 element: <Register/>,
-            },
-            {
-                path: "/logout",
-                element: <Logout/>,
             },
             {
                 element: <PrivateRouteClient/>,

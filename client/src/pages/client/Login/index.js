@@ -24,11 +24,10 @@ function Login () {
       Cookies.set('id', response.user._id);
       Cookies.set('token', response.user.token);
       Cookies.set('fullName', response.user.fullName);
+      localStorage.setItem("isLogin", true);
       dispatch(checkLogin(true));
       api.success(`Hello ${response.user.fullName}!`);
-      setTimeout(() => {
-        navigate("/");
-      }, 500)
+      navigate("/");
     }
  
     else {
@@ -77,11 +76,12 @@ function Login () {
             </Flex>
           </Form.Item>
           <Form.Item label={null}>
-            <Button size='large' type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit">
               Login
             </Button>
           </Form.Item>
         </Form>
+        <div>You don't have account?<Link to={"/register"}> Register now!</Link></div>
       </Flex>
     </>
   )

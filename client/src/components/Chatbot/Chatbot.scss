@@ -1,0 +1,93 @@
+.chatbot {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  font-size: 42px;
+  background-color: inherit;
+  color: rgb(12, 125, 200);
+  border: none;
+  cursor: pointer;
+
+  :hover {
+    color: rgb(205, 10, 169);
+  }
+}
+
+.message {
+  padding: 10px;
+  height: 100%;
+  overflow-y: auto;
+  background-color: #fff;
+
+  &__box {
+    padding-bottom: 5px;
+
+    &--me {
+      text-align: right;
+    }
+  }
+
+  &__name {
+    font-weight: 700;
+    font-size: 17px;
+    margin: 0 5px;
+  }
+
+  &__time {
+    color: #ddd;
+    font-size: 12px;
+  }
+
+  &__content {
+    background-color: #ddd;
+    margin: 10px 0;
+    display: inline-block;
+    max-width: 70%;
+    padding: 10px;
+    border-radius: 10px;
+    word-wrap: break-word;
+    word-break: break-word;
+
+    &--me {
+      background-color: #eb2f96;
+    }
+  }
+
+  @media (max-width: 575.98px) {
+    &__name {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    &__time {
+      font-size: 10px;
+    }
+  }
+}
+
+.send-message {
+  position: "absolute";
+  bottom: 0;
+  width: "100%";
+  padding: "10px";
+  border-top: "1px solid #f0f0f0";
+}
+
+.upload{
+  position: relative;
+  height: 0;
+  width: 100%;
+
+  &__image{
+    position: absolute;
+    top: -10px;
+    left: 0;
+  }
+
+  &__close {
+    position: absolute;
+    top: -25px;
+    right: -10px;
+    z-index: 999;
+  }
+}

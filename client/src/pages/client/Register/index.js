@@ -19,10 +19,8 @@ function Register () {
     }
     const response = await createNewUser(options);
     if(response.code === 200) {
-      api.success('Register successfully!\nPlease login to continue the experience!');
-      setTimeout(() => {
-        navigate("/login");
-      }, 500)
+      localStorage.setItem("isRegister", true);
+      navigate("/login");
     }
     else {
       api.error(response.message);
