@@ -30,8 +30,8 @@ function Chatbot () {
         onCancel={handleCancel}
         width={800}
         styles={{
-          body: { height: "90vh" },
-          content: { maxWidth: "90vw", top: 20 },
+          body: { height: "85vh" },
+          content: { maxWidth: "90vw", top: -60 },
         }}
       >
         <ChatMessage />

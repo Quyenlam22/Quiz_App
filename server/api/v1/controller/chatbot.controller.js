@@ -3,29 +3,36 @@ const Chat = require("../models/chatbot.model");
 module.exports.chatbot = async (req, res) => {
   try {
     
-    const { role, text } = req.body;
-    if (!text?.trim()) {
+    const { role, text, image } = req.body;
+    if (!text?.trim() && !image) {
       return res.status(400).json({ error: "Message required" });
     }
+
+    console.log(req.body);
+    
 
     const chatHistory = await Chat.find({})
       .sort({ createdAt: 1 })
       .limit(20)
       .lean();
 
+    // Chuẩn bị dữ liệu gửi cho Gemini
     const contents = [
       ...chatHistory.map(msg => ({
         role: msg.role,
-        parts: [{ text: msg.text }]
+        parts: [
+          ...(msg.text ? [{ text: msg.text }] : []),
+          ...(msg.image ? [{ text: `Image URL: ${msg.image}` }] : [])
+        ]
       })),
       {
         role: role || "user",
-        parts: [{ text }]
+        parts: [
+          ...(text ? [{ text }] : []),
+          ...(image ? [{ text: `Image URL: ${image}` }] : [])
+        ]
       }
     ];
-    
-    console.log(contents);
-    
 
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${process.env.GEMINI_KEY}`,
@@ -51,7 +58,7 @@ module.exports.chatbot = async (req, res) => {
     }
 
     const content = await Chat.insertMany([
-      { role: "user", text },
+      { role: "user", text, imageUrl: image },
       { role: "model", text: reply }
     ]);
 

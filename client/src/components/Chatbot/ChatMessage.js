@@ -3,6 +3,7 @@ import EmojiPicker from "emoji-picker-react";
 import { useEffect, useRef, useState } from "react";
 import { SmileOutlined, SendOutlined, FileImageOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import { sendMessage } from "../../services/chatbotService";
+const API_DOMAIN = process.env.REACT_APP_API;
 
 function ChatMessage() {
   const [form] = Form.useForm();
@@ -33,15 +34,34 @@ function ChatMessage() {
   }, [messages]);
 
   const onFinish = async (values) => {
-    const newMsg = {
-      role: "user",
-      text: values.message,
-    };
-
     try {
       setIsSending(true); 
+
+      let imageUrl = null;
+      if(fileList.length > 0){
+        const formData = new FormData();
+        formData.append("file", fileList[0]);
+          const res = await fetch(`${API_DOMAIN}/upload`, {
+          method: "POST",
+          body: formData,
+        });
+        const data = await res.json();
+        imageUrl = data.url;         
+      }
+      const newMsg = {
+        role: "user",
+        text: values.message || "",
+        image: imageUrl,
+      };
+      
       const data = await sendMessage(newMsg);
-      setMessages((prev) => [...prev, ...data]);
+      if (Array.isArray(data)) {
+        setMessages((prev) => [...prev, ...data]);
+      } else {
+        console.error("API is not valid:",  data);
+      }
+      setPreview(null);
+      setFileList([]);
       form.resetFields();
     } catch (error) {
       console.error("Lỗi gửi tin nhắn:", error);
@@ -68,32 +88,50 @@ function ChatMessage() {
       className="message"
       ref={messageContainerRef}
     >
-      {messages.map((message) =>
-        message.role === "user" ? (
-          <div key={message._id} className="message__box message__box--me">
-            <p className="message__content message__content--me">
-              {message.text}
-            </p>
-          </div>
-        ) : (
-          <div className="message__box" key={message._id}>
-            <Flex align="center" gap={8}>
-              <Avatar src={"https://i.pravatar.cc/100?img=3"}>
-                {/* {message.photoURL
-                  ? ""
-                  : message.displayName?.charAt(0)?.toUpperCase()} */}
-              </Avatar>
-              <span className="message__name">AI Agent</span>
-              <span className="message__time">
-                {new Date(message.createdAt).toLocaleTimeString("vi-VN", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-              </span>
+      { messages.length > 0 ?
+        messages.map((message) =>
+          message.role === "user" ? (
+            <Flex vertical align="flex-end" key={message._id} className="message__box message__box--me">
+              { message.imageUrl &&
+                <Image 
+                  width={120}
+                  src={message.imageUrl}
+                />
+              }
+              <p className="message__content message__content--me">
+                {message.text}
+              </p>
             </Flex>
-            <p className="message__content">{message.text}</p>
-          </div>
-        )
+          ) : (
+            <div className="message__box" key={message._id}>
+              <Flex align="center" gap={8}>
+                <Avatar src={"https://i.pravatar.cc/100?img=3"}>
+                  {/* {message.photoURL
+                    ? ""
+                    : message.displayName?.charAt(0)?.toUpperCase()} */}
+                </Avatar>
+                <span className="message__name">AI Agent</span>
+                <span className="message__time">
+                  {new Date(message.createdAt).toLocaleTimeString("vi-VN", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </span>
+              </Flex>
+              <p className="message__content">{message.text}</p>
+            </div>
+          )
+      ) : (
+        <>
+          <Flex justify="center" align="center" style={{
+            height: "90%",
+            fontSize: 28,
+            fontWeight: 600,
+            color: "#ddd"
+          }}>
+            Ask for anything you want!
+          </Flex>
+        </>
       )}
       <Form style={{position: "sticky", bottom: 0}} form={form} onFinish={onFinish}>
         <Flex gap={4}>
@@ -131,7 +169,7 @@ function ChatMessage() {
             </div>
           </Form.Item>
 
-          <Form.Item>
+          <Form.Item name="upload">
             <Upload 
               beforeUpload={beforeUpload} 
               fileList={fileList}         
