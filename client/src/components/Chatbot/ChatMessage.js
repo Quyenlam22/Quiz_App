@@ -88,51 +88,6 @@ function ChatMessage() {
       className="message"
       ref={messageContainerRef}
     >
-      { messages.length > 0 ?
-        messages.map((message) =>
-          message.role === "user" ? (
-            <Flex vertical align="flex-end" key={message._id} className="message__box message__box--me">
-              { message.imageUrl &&
-                <Image 
-                  width={120}
-                  src={message.imageUrl}
-                />
-              }
-              <p className="message__content message__content--me">
-                {message.text}
-              </p>
-            </Flex>
-          ) : (
-            <div className="message__box" key={message._id}>
-              <Flex align="center" gap={8}>
-                <Avatar src={"https://i.pravatar.cc/100?img=3"}>
-                  {/* {message.photoURL
-                    ? ""
-                    : message.displayName?.charAt(0)?.toUpperCase()} */}
-                </Avatar>
-                <span className="message__name">AI Agent</span>
-                <span className="message__time">
-                  {new Date(message.createdAt).toLocaleTimeString("vi-VN", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </span>
-              </Flex>
-              <p className="message__content">{message.text}</p>
-            </div>
-          )
-      ) : (
-        <>
-          <Flex justify="center" align="center" style={{
-            height: "90%",
-            fontSize: 28,
-            fontWeight: 600,
-            color: "#ddd"
-          }}>
-            Ask for anything you want!
-          </Flex>
-        </>
-      )}
       <Form style={{position: "sticky", bottom: 0}} form={form} onFinish={onFinish}>
         <Flex gap={4}>
           <Form.Item name="message" style={{ flex: 1, marginBottom: 0 }}>
@@ -185,6 +140,52 @@ function ChatMessage() {
           </Button>
         </Flex>
       </Form>
+      
+      { messages.length > 0 ?
+        messages.map((message) =>
+          message.role === "user" ? (
+            <Flex vertical align="flex-end" key={message._id} className="message__box message__box--me">
+              { message.imageUrl &&
+                <Image 
+                  width={120}
+                  src={message.imageUrl}
+                />
+              }
+              <p className="message__content message__content--me">
+                {message.text}
+              </p>
+            </Flex>
+          ) : (
+            <div className="message__box" key={message._id}>
+              <Flex align="center" gap={8}>
+                <Avatar src={"https://i.pravatar.cc/100?img=3"}>
+                  {/* {message.photoURL
+                    ? ""
+                    : message.displayName?.charAt(0)?.toUpperCase()} */}
+                </Avatar>
+                <span className="message__name">AI Agent</span>
+                <span className="message__time">
+                  {new Date(message.createdAt).toLocaleTimeString("vi-VN", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </span>
+              </Flex>
+              <p className="message__content">{message.text}</p>
+            </div>
+          )
+      ) : (
+        <>
+          <Flex justify="center" align="center" style={{
+            height: "90%",
+            fontSize: 28,
+            fontWeight: 600,
+            color: "#ddd"
+          }}>
+            Ask for anything you want!
+          </Flex>
+        </>
+      )}
 
       {preview && (
         <Flex justify="flex-end" align="center" className="upload">

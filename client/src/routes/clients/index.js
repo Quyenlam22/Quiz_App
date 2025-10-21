@@ -1,17 +1,22 @@
 import LayoutClient from "../../layouts/LayoutClient";
-import Home from "../../pages/client/Home";
-import Topic from "../../pages/client/Topic";
-import Answers from "../../pages/client/Answers";
+
 import Login from "../../pages/client/Login";
 import Register from "../../pages/client/Register";
-import Quiz from "../../pages/client/Quiz";
-import Result from "../../pages/client/Result";
+
 import PrivateRouteClient from "../../components/PrivateRoutes/PrivateRouteClient";
 import ForgotPassword from "../../pages/client/ForgotPassword";
 import OtpPassword from "../../pages/client/ForgotPassword/OtpPassword";
 import ResetPassword from "../../pages/client/ForgotPassword/ResetPassword";
-import InfoUser from "../../pages/client/InfoUser";
-import Error404 from "../../pages/Error404";
+import  Error404 from "../../pages/Error404";
+import { lazy } from "react";
+import withSuspense from "../../utils/withSuspense";
+
+const Home = lazy(() => import("../../pages/client/Home"));
+const Topic = lazy(() => import("../../pages/client/Topic"));
+const Answers = lazy(() => import("../../pages/client/Answers"));
+const Quiz = lazy(() => import("../../pages/client/Quiz"));
+const Result = lazy(() => import("../../pages/client/Result"));
+const InfoUser = lazy(() => import("../../pages/client/InfoUser"));
 
 export const routes = [
     {
@@ -24,7 +29,7 @@ export const routes = [
             },
             {
                 path: "/",
-                element: <Home/>,
+                element: withSuspense(Home),
             },
             {
                 path: "/login",
@@ -56,23 +61,23 @@ export const routes = [
                 children: [
                     {
                         path: "/users/info",
-                        element: <InfoUser/>
+                        element: withSuspense(InfoUser)
                     },
                     {
                         path: "/topics",
-                        element: <Topic/>,
+                        element: withSuspense(Topic),
                     },
                     {
                         path: "/answers",
-                        element: <Answers/>,
+                        element: withSuspense(Answers),
                     },
                     {
                         path: "/quiz/:slug",
-                        element: <Quiz/>,
+                        element: withSuspense(Quiz),
                     },
                     {
                         path: "/result/:id",
-                        element: <Result/>,
+                        element: withSuspense(Result),
                     }
                 ]
             }
