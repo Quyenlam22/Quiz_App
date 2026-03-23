@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // parse application/json
 app.use(bodyParser.json());
 
-const route = require("./api/v1/routes/client/index");
+const route = require("./api/v1/routes/index");
 
 route(app);
 

@@ -7,13 +7,13 @@ const md5 = require("md5");
 // [POST] /api/v1/users/login
 module.exports.login = async (req, res) => {
   try {
-    const options = {
-      email: req.body.email,
-      password: md5(req.body.password),
-      role: req.body.role,
+    const { email, password } = req.body; // Bỏ role ra khỏi query tìm kiếm ban đầu
+
+    const user = await User.findOne({
+      email: email,
+      password: md5(password),
       deleted: false
-    }
-    const user = await User.findOne(options).select("-password");
+    }).select("-password");
 
     if (user) {
       res.json({
@@ -21,65 +21,42 @@ module.exports.login = async (req, res) => {
         user: user
       });
     } else {
-      res.json({
-        code: 400,
-        message: "Not found account!",
-      });
+      res.json({ code: 400, message: "Email hoặc mật khẩu không chính xác!" });
     }
   } catch (error) {
-    res.json({
-      code: 400,
-      message: error
-    });
+    res.json({ code: 400, message: "Lỗi hệ thống" });
   }
 }
 
 // [POST] /api/v1/users/create
 module.exports.create = async (req, res) => {
-  try {
-    const userExist = await User.findOne({
-      email: req.body.email,
-      role: req.body.role
-    }).select("-password");
+    try {
+        const { email, fullName, password, role } = req.body;
 
-    if (userExist) {
-      res.json({
-        code: 400,
-        message: 'User already exists in the system!'
-      });
-    } else {
-      const options = {
-        fullName: req.body.fullName,
-        email: req.body.email,
-        password: md5(req.body.password),
-        token: generateHelper.generateRandomString(30),
-        role: req.body.role,
-      }
-      const record = new User(options);
-      await record.save();
+        const emailExist = await User.findOne({ email, deleted: false });
+        if (emailExist) {
+            return res.json({ code: 400, message: "Email đã tồn tại!" });
+        }
 
-      const userObject = record.toObject();
-      delete userObject.password;
-      res.json({
-        code: 200,
-        record: userObject
-      });
+        const record = new User({
+            fullName,
+            email,
+            password: md5(password),
+            token: generateHelper.generateRandomString(30),
+            role: role || "user",
+            state: 'offline', // Mặc định khi tạo mới
+            favorites: { songs: [], artists: [], albums: [] } // Khởi tạo mảng yêu thích
+        });
+
+        await record.save();
+        const userObject = record.toObject();
+        delete userObject.password;
+
+        res.json({ code: 200, data: userObject });
+    } catch (error) {
+        res.status(500).json({ code: 500, message: error.message });
     }
-  } catch (error) {
-    res.json({
-      code: 400,
-      message: error
-    });
-  }
-}
-//PASSWORD
-
-
-
-
-
-
-
+};
 
 // [GET] /api/v1/users/info/:id
 module.exports.info = async (req, res) => {
@@ -115,7 +92,7 @@ module.exports.forgotPassword = async (req, res) => {
   try {
     const user = await User.findOne({
       email: req.body.email,
-      role: req.body.role,
+      // role: req.body.role,
       deleted: false
     }).select('-password');
 
@@ -251,3 +228,148 @@ module.exports.infoUser = async (req, res) => {
     });
   }
 }
+
+module.exports.list = async (req, res) => {
+    try {
+        const keyword = req.query.keyword || "";
+        const role = req.query.role || "";
+
+        let find = {
+            deleted: false,
+            fullName: { $regex: keyword, $options: "i" }
+        };
+
+        if (role) find.role = role;
+
+        // Bỏ .limit() và .skip() để trả về toàn bộ danh sách
+        const users = await User.find(find)
+            .select("-password")
+            .sort({ createdAt: -1 });
+
+        res.json({
+            code: 200,
+            data: users,
+            total: users.length // Front-end sẽ dùng số này để tính toán
+        });
+    } catch (error) {
+        res.status(500).json({ code: 500, message: error.message });
+    }
+};
+
+// [PATCH] /api/v1/users/update/:id
+module.exports.update = async (req, res) => {
+    try {
+        const id = req.params.id || req.body.id;
+        const { fullName, email, password, role, photoURL } = req.body;
+
+        // Kiểm tra email trùng (loại trừ user hiện tại)
+        const emailExist = await User.findOne({
+            _id: { $ne: id },
+            email: email,
+            deleted: false
+        });
+
+        if (emailExist) {
+            return res.json({ code: 400, message: "Email đã được sử dụng bởi người khác!" });
+        }
+
+        const updateData = { fullName, email, role };
+        if (password) updateData.password = md5(password);
+        if (photoURL) updateData.photoURL = photoURL;
+
+        const updatedUser = await User.findOneAndUpdate(
+            { _id: id },
+            updateData,
+            { new: true } // Trả về bản ghi sau khi update
+        ).select("-password");
+
+        if (!updatedUser) {
+            return res.json({ code: 400, message: "Không tìm thấy người dùng!" });
+        }
+
+        res.json({ code: 200, message: "Cập nhật thành công!", data: updatedUser });
+    } catch (error) {
+        res.status(500).json({ code: 500, message: error.message });
+    }
+};
+
+// [PATCH] /api/v1/users/change-status
+module.exports.changeStatus = async (req, res) => {
+    try {
+        const { id, state } = req.body; // state: 'online' | 'offline'
+        await User.updateOne({ _id: id }, { state, lastSeen: new Date() });
+        res.json({ code: 200, message: "Cập nhật trạng thái thành công" });
+    } catch (error) {
+        res.status(500).json({ code: 500, message: error.message });
+    }
+}
+
+// [DELETE] /api/v1/users/delete/:id
+module.exports.delete = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        const result = await User.updateOne(
+            { _id: id },
+            {
+                deleted: true,
+                deletedAt: new Date(),
+                state: 'offline' // Khi xóa thì cho tài khoản offline luôn
+            }
+        );
+
+        if (result.matchedCount === 0) {
+            return res.json({
+                code: 404,
+                message: "Không tìm thấy người dùng để xóa!"
+            });
+        }
+
+        res.json({
+            code: 200,
+            message: "Xóa người dùng thành công!"
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            code: 500,
+            message: "Lỗi hệ thống khi xóa!",
+            error: error.message
+        });
+    }
+};
+
+// [PATCH] /api/v1/users/delete-many
+module.exports.deleteMany = async (req, res) => {
+    try {
+        const ids = req.body.ids; // Mảng các ID gửi từ Frontend lên
+
+        if (!ids || !Array.isArray(ids) || ids.length === 0) {
+            return res.json({
+                code: 400,
+                message: "Danh sách ID không hợp lệ!"
+            });
+        }
+
+        await User.updateMany(
+            { _id: { $in: ids } },
+            {
+                deleted: true,
+                deletedAt: new Date(),
+                state: 'offline'
+            }
+        );
+
+        res.json({
+            code: 200,
+            message: `Đã xóa thành công ${ids.length} người dùng!`
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            code: 500,
+            message: "Lỗi hệ thống khi xóa nhiều!",
+            error: error.message
+        });
+    }
+};
