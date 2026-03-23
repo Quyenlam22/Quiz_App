@@ -11,7 +11,7 @@ function ForgotPassword () {
   const onFinish = async (values) => {
     const options = { 
       email: values.email, 
-      role: "CLIENT"
+      role: "user"
     };
     
     const response = await forgotPassword(options);

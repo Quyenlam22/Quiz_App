@@ -1,20 +1,17 @@
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import './LayoutClient.scss';
 import { Button, Layout, message } from 'antd'
 import Cookies from 'js-cookie';
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { checkLogin } from "../../actions/login";
+import { useEffect, useState, useContext } from "react";
 import FooterComponent from "../../components/FooterComponent";
 import Chatbot from "../../components/Chatbot";
+import { AuthContext } from "../../Context/AuthContext";
 
 function LayoutClient () {
     const [token, setToken] = useState();
-    const login = useSelector(state => state.loginReducer);
-    const navigate = useNavigate();
-    const [api, contextHolder] = message.useMessage();
-    const dispatch = useDispatch();
+    const { login, handleLogout } = useContext(AuthContext);
 
+    const [api, contextHolder] = message.useMessage();
     const fullName = Cookies.get("fullName");
 
     useEffect(() => {
@@ -30,7 +27,6 @@ function LayoutClient () {
                 duration: 1,
                 content: "Logout successfully!"
             });
-                ;
         }
 
         if(login && isLogin === "true") {
@@ -40,7 +36,6 @@ function LayoutClient () {
                 duration: 1,
                 content: `Hello ${fullName}!`
             });
-                ;
         }
         
         if(isRegister === "true") {
@@ -49,7 +44,6 @@ function LayoutClient () {
                 duration: 1,
                 content: "Register successfully!"
             });
-                ;
             localStorage.setItem("isRegister", false);
         }
 
@@ -59,24 +53,20 @@ function LayoutClient () {
                 duration: 1,
                 content: "Please login to continue!"
             });
-                ;
             localStorage.setItem("isPrivate", false);
         }
         
         setToken(Cookies.get("token"));
-    }, [login, api, navigate, fullName])
+    }, [login, api, fullName]);
 
     const navLinkActive = (e) => {
         return e.isActive ? "menu__link menu__link--active" : "menu__link";
-    }
+    };
 
-    const handleLogout = () => {
+    const handleLogoutClick = () => {
         localStorage.setItem("isLogout", true);
-        Cookies.remove("id");
-        Cookies.remove("fullName");
-        Cookies.remove("token");
-        dispatch(checkLogin(false));
-    }
+        handleLogout();
+    };
 
     return (
         <>
@@ -84,11 +74,13 @@ function LayoutClient () {
             <Layout>
                 <div className="layout-default">
                     <header className="layout-default__header">
+
                         <div className="layout-default__logo">
                             <NavLink to="/" >
                                 <img src='/logo_app.png' alt="Logo" />
                             </NavLink>
                         </div>
+
                         <div className="menu">
                             <ul>
                                 <li>
@@ -96,6 +88,7 @@ function LayoutClient () {
                                         Home
                                     </NavLink>
                                 </li>
+
                                 {token && (
                                     <>
                                         <li>
@@ -112,6 +105,7 @@ function LayoutClient () {
                                 )}
                             </ul>    
                         </div>
+
                         <div className="layout-default__account">
                             {token ? (
                                 <>
@@ -119,7 +113,9 @@ function LayoutClient () {
                                         <NavLink to="/users/info">{fullName}</NavLink>
                                     </Button>
                                     <Button className="button__auth">
-                                        <NavLink to="/login" onClick={handleLogout}>Đăng xuất</NavLink>
+                                        <NavLink to="/login" onClick={handleLogoutClick}>
+                                            Đăng xuất
+                                        </NavLink>
                                     </Button>
                                 </>
                             ) : (
@@ -133,10 +129,13 @@ function LayoutClient () {
                                 </>
                             )}
                         </div>
+
                     </header> 
+
                     <main className="layout-default__main">
                         <Outlet/>
                     </main>
+
                     <FooterComponent/>
                     <Chatbot/>
                 </div>

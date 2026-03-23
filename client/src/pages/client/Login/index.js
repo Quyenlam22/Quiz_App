@@ -2,14 +2,15 @@ import { Button, Checkbox, Flex, Form, Input, message } from 'antd';
 import { login } from '../../../services/usersService';
 import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import { useDispatch } from "react-redux";
-import { checkLogin } from '../../../actions/login';
+import { useContext } from "react";
+import { AuthContext } from "../../../Context/AuthContext";
 
-const rules = [{ required: true, message: 'Please fill in this field!' }]
+const rules = [{ required: true, message: 'Please fill in this field!' }];
 
 function Login () {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const { handleLogin } = useContext(AuthContext);
+
   const [api, contextHolder] = message.useMessage();
 
   const onFinish = async (values) => {
@@ -20,28 +21,37 @@ function Login () {
     };
     
     const response = await login(options);
+
     if(response.code === 200) {
+      // 🔥 lưu cookie
       Cookies.set('id', response.user._id);
       Cookies.set('token', response.user.token);
       Cookies.set('fullName', response.user.fullName);
+
+      // 🔥 trigger UI (thay Redux)
+      handleLogin();
+
+      // 🔥 message + flag
       localStorage.setItem("isLogin", true);
-      dispatch(checkLogin(true));
       api.success(`Hello ${response.user.fullName}!`);
+
       navigate("/");
     }
- 
     else {
-      api.error(`Email or password is not correct!`,);
+      api.error(`Email or password is not correct!`);
     }
   };
+
   const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);
   };
+
   return (
     <>
       {contextHolder}
       <Flex vertical align='center' justify='center'>
         <h2>Login</h2>
+
         <Form
           name="login"
           wrapperCol={{ span: 16 }}
@@ -51,6 +61,7 @@ function Login () {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
         >
+
           <Form.Item
             label="Email"
             name="email"
@@ -58,6 +69,7 @@ function Login () {
           >
             <Input placeholder="Enter your email" />
           </Form.Item>
+
           <Form.Item
             label="Password"
             name="password"
@@ -65,6 +77,7 @@ function Login () {
           >
             <Input.Password placeholder='Enter your password' />
           </Form.Item>
+
           <Form.Item
             name="remember"
             valuePropName="checked"
@@ -75,16 +88,22 @@ function Login () {
               <Link to="/user/forgot-password">Forgot password?</Link>
             </Flex>
           </Form.Item>
+
           <Form.Item label={null}>
             <Button type="primary" htmlType="submit">
               Login
             </Button>
           </Form.Item>
+
         </Form>
-        <div>You don't have account?<Link to={"/register"}> Register now!</Link></div>
+
+        <div>
+          You don't have account?
+          <Link to={"/register"}> Register now!</Link>
+        </div>
       </Flex>
     </>
-  )
+  );
 }
 
 export default Login;

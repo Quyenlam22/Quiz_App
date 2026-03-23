@@ -7,7 +7,7 @@ import PrivateRouteClient from "../../components/PrivateRoutes/PrivateRouteClien
 import ForgotPassword from "../../pages/client/ForgotPassword";
 import OtpPassword from "../../pages/client/ForgotPassword/OtpPassword";
 import ResetPassword from "../../pages/client/ForgotPassword/ResetPassword";
-import  Error404 from "../../pages/Error404";
+// import  Error404 from "../../pages/Error404";
 import { lazy } from "react";
 import withSuspense from "../../utils/withSuspense";
 
@@ -23,10 +23,10 @@ export const routes = [
         path: "/",
         element: <LayoutClient/>,
         children: [
-            {
-                path: "*",
-                element: <Error404/>,
-            },
+            // {
+            //     path: "*",
+            //     element: <Error404/>,
+            // },
             {
                 path: "/",
                 element: withSuspense(Home),

@@ -1,36 +1,50 @@
-import { get, patch, post } from "../utils/request";
+import { get, patch, post, del } from "../utils/request";
 
+// LOGIN
 export const login = async (options) => {
-    const result = await post(options, `users/login`);
-    return result;
-}
+  return await post(options, `users/login`);
+};
 
-export const createNewUser = async (options) => {
-    const result = await post(options, `users/create`);
-    return result;
-}
+// CREATE
+export const createUser = async (options) => {
+  return await post(options, `users/create`);
+};
 
+// LIST (🔥 QUAN TRỌNG)
+export const getUsers = async (params = "") => {
+  return await get(`users${params}`);
+  // ví dụ: ?keyword=a&role=admin&page=1
+};
+
+// GET DETAIL
 export const infoUser = async (id) => {
-    const result = await get(`users/info/${id}`);
-    return result;
-}
+  return await get(`users/info/${id}`);
+};
 
-export const updateInfoUser = async (options) => {
-    const result = await patch(options, `users/info`);
-    return result;
-}
+// UPDATE
+export const updateUser = async (options) => {
+  return await patch(options, `users/info`);
+};
 
+// DELETE 1
+export const deleteUser = async (id) => {
+  return await del(`users/delete/${id}`);
+};
+
+// DELETE MANY
+export const deleteManyUsers = async (ids) => {
+  return await patch({ ids }, `users/delete-many`);
+};
+
+// PASSWORD
 export const forgotPassword = async (options) => {
-    const result = await post(options, 'users/password/forgot');
-    return result;
-}
+  return await post(options, 'users/password/forgot');
+};
 
 export const otpPassword = async (options) => {
-    const result = await post(options, 'users/password/otp');
-    return result;
-}
+  return await post(options, 'users/password/otp');
+};
 
 export const resetPassword = async (options) => {
-    const result = await post(options, 'users/password/reset');
-    return result;
-}
+  return await post(options, 'users/password/reset');
+};
