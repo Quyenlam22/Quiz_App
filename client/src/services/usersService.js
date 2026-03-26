@@ -5,6 +5,10 @@ export const login = async (options) => {
   return await post(options, `users/login`);
 };
 
+export const loginAdmin = async (options) => {
+  return await post(options, `users/login-admin`);
+};
+
 // CREATE
 export const createUser = async (options) => {
   return await post(options, `users/create`);

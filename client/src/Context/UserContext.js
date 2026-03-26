@@ -7,7 +7,6 @@ export default function UserProvider({ children }) {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Thêm tham số silent để load ngầm (không hiện Spin nếu đã có dữ liệu)
   const refreshUsers = useCallback(async (params = "", silent = false) => {
     if (!silent) setLoading(true);
     try {
@@ -17,31 +16,26 @@ export default function UserProvider({ children }) {
         setUsers(data);
       }
       return res;
-    } catch (error) {
-      console.error("Fetch Users Error:", error);
     } finally {
       setLoading(false);
     }
   }, []);
 
+  // 🔥 THÊM HÀM NÀY: Để xóa sạch dữ liệu khi đăng xuất
+  const clearUsers = useCallback(() => {
+    setUsers([]);
+  }, []);
+
   const removeUser = useCallback(async (id) => {
-    try {
-      const res = await deleteUser(id);
-      if (res?.code === 200) await refreshUsers("", true); // Xóa xong load lại ngầm
-      return res;
-    } catch (error) {
-      return { code: 500, message: "Lỗi hệ thống!" };
-    }
+    const res = await deleteUser(id);
+    if (res?.code === 200) await refreshUsers("", true);
+    return res;
   }, [refreshUsers]);
 
   const removeManyUsers = useCallback(async (ids) => {
-    try {
-      const res = await deleteManyUsers(ids);
-      if (res?.code === 200) await refreshUsers("", true);
-      return res;
-    } catch (error) {
-      return { code: 500, message: "Lỗi hệ thống!" };
-    }
+    const res = await deleteManyUsers(ids);
+    if (res?.code === 200) await refreshUsers("", true);
+    return res;
   }, [refreshUsers]);
 
   useEffect(() => {
@@ -49,7 +43,7 @@ export default function UserProvider({ children }) {
   }, [refreshUsers]);
 
   return (
-    <UserContext.Provider value={{ users, loading, refreshUsers, removeUser, removeManyUsers }}>
+    <UserContext.Provider value={{ users, loading, refreshUsers, removeUser, removeManyUsers, clearUsers }}>
       {children}
     </UserContext.Provider>
   );

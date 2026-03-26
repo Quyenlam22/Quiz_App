@@ -16,7 +16,16 @@ function LayoutAdmin () {
     const login = [
         {
             key: "userinfo",
-            label: <NavLink to="user-info">Thông tin tài khoản</NavLink>
+            label: <NavLink to="user-info">
+                <Button
+                    icon={<UserOutlined />}
+                    color="primary"
+                    variant="text"
+                    style={{ width: '100%' }}    
+                >
+                    Thông tin tài khoản
+                </Button>
+            </NavLink>
         },
         {
             key: "logout",

@@ -13,28 +13,34 @@ function InfoUser() {
   const [form] = Form.useForm();
 
   // 🔥 LOAD USER
-  const fetchUser = async () => {
-    try {
-      const res = await infoUser(Cookies.get("id"));
-
-      if (res.code === 200) {
-        setData(res.data);
-        form.setFieldsValue(res.data);
-      } else {
-        api.error("Fetch user failed!");
-      }
-    } catch {
-      api.error("Server error!");
-    }
-  };
-
   useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const userId = Cookies.get("id");
+        if (!userId) return;
+
+        const res = await infoUser(userId);
+
+        if (res.code === 200) {
+          setData(res.data);
+          form.setFieldsValue(res.data);
+        } else {
+          api.error("Fetch user failed!");
+        }
+      } catch {
+        api.error("Server error!");
+      }
+    };
+
     fetchUser();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form]); 
 
   // 🔥 UPDATE
   const onFinish = async (values) => {
     try {
+      if (!data?._id) return;
+      
       setLoading(true);
 
       const res = await updateUser({
@@ -50,7 +56,6 @@ function InfoUser() {
       } else {
         api.error(res.message || "Update failed!");
       }
-
     } catch {
       api.error("Server error!");
     } finally {
@@ -62,9 +67,9 @@ function InfoUser() {
     <>
       {contextHolder}
 
-      <Flex justify="center">
+      <Flex justify="center" style={{ marginTop: "50px" }}>
         <div style={{ width: 500 }}>
-          <h2>Account Information</h2>
+          <h2 style={{ textAlign: "center" }}>Account Information</h2>
 
           <Form
             form={form}
@@ -76,7 +81,7 @@ function InfoUser() {
               name="fullName"
               rules={rules}
             >
-              <Input />
+              <Input placeholder="Enter your full name" />
             </Form.Item>
 
             <Form.Item
@@ -87,14 +92,17 @@ function InfoUser() {
                 { type: "email", message: "Invalid email!" }
               ]}
             >
-              <Input />
+              <Input placeholder="Enter your email" />
             </Form.Item>
 
             <Form.Item
               label="New Password"
               name="password"
             >
-              <Input.Password placeholder="Leave blank if not change" />
+              <Input.Password 
+                autoComplete="new-password" 
+                placeholder="Leave blank if not change" 
+              />
             </Form.Item>
 
             <Button
@@ -102,6 +110,7 @@ function InfoUser() {
               htmlType="submit"
               loading={loading}
               block
+              size="large"
             >
               Update
             </Button>

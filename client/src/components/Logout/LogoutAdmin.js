@@ -1,34 +1,35 @@
-import Cookies from 'js-cookie';
-import { notification } from 'antd';
+import { Button } from 'antd';
+import { LogoutOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { AuthContext } from '../../Context/AuthProvider';
+import { UserContext } from '../../Context/UserContext'; // 🔥 Import thêm
 
-function LogoutAdmin () {
-    const [api, contextHolder] = notification.useNotification();
-    const navigate = useNavigate();
+function LogoutAdmin() {
+  const navigate = useNavigate();
+  const { handleLogout } = useContext(AuthContext);
+  const { clearUsers } = useContext(UserContext); // 🔥 Lấy hàm clear dữ liệu
 
-    const openNotification = () => {
-        api['success']({
-            message: `Đăng xuất thành công!`,
-            duration: 1
-        });
-    };
+  const onLogout = () => {
+    // 1. Xóa sạch dữ liệu trong các Context
+    handleLogout(); 
+    clearUsers(); // 🔥 Xóa danh sách users cũ
+    
+    // 3. Chuyển hướng
+    navigate('/admin/login', { replace: true });
+  };
 
-    const handleClick = async () => {
-        Cookies.remove('accessToken');
-        Cookies.remove('fullNameAdmin');
-        
-        openNotification();
-        setTimeout(() => {
-            navigate("/admin/login");
-        }, 1000);
-    }
-
-    return (
-        <>
-            {contextHolder}
-            <div onClick={handleClick}>Đăng xuất</div>
-        </>
-    )
+  return (
+    <Button 
+      color="danger"
+      variant="text"
+      icon={<LogoutOutlined />} 
+      onClick={onLogout}
+      style={{ width: '100%' }}
+    >
+      Đăng xuất
+    </Button>
+  );
 }
 
 export default LogoutAdmin;

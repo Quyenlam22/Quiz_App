@@ -3,7 +3,7 @@ import { login } from '../../../services/usersService';
 import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { useContext } from "react";
-import { AuthContext } from "../../../Context/AuthContext";
+import { AuthContext } from "../../../Context/AuthProvider";
 
 const rules = [{ required: true, message: 'Please fill in this field!' }];
 

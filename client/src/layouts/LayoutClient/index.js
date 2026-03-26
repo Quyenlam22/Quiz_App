@@ -5,7 +5,7 @@ import Cookies from 'js-cookie';
 import { useEffect, useState, useContext } from "react";
 import FooterComponent from "../../components/FooterComponent";
 import Chatbot from "../../components/Chatbot";
-import { AuthContext } from "../../Context/AuthContext";
+import { AuthContext } from "../../Context/AuthProvider";
 
 function LayoutClient () {
     const [token, setToken] = useState();

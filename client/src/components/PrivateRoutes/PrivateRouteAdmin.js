@@ -1,36 +1,38 @@
-import { Modal } from "antd";
-import Cookies from "js-cookie";
-import { useState } from "react";
-import { useNavigate, Outlet } from "react-router-dom";
-import { InfoOutlined } from "@ant-design/icons";
+import { useContext, useEffect } from "react";
+import { Navigate, Outlet } from "react-router-dom";
+import { AuthContext } from "../../Context/AuthProvider";
+import { AppContext } from "../../Context/AppProvider";
+import { Flex, Spin } from "antd";
 
-function PrivateRouteAdmin () {
-    const accessToken = Cookies.get("accessToken");
-    const navigate = useNavigate();
-    const [isModalOpen, setIsModalOpen] = useState(true);
+const PrivateRouteAdmin = () => {
+  const { user, loading } = useContext(AuthContext);
+  const { messageApi } = useContext(AppContext);
 
-    const handleCancel = () => {
-        setIsModalOpen(false);
-        navigate('/admin/login');
-    };
+  useEffect(() => {
+    if (!loading) {
+      if (!user) {
+        messageApi.error("Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại!");
+      } else if (user.role !== 'admin') {
+        messageApi.error("Bạn không có quyền truy cập trang này!");
+      }
+    }
+  }, [user, loading, messageApi]);
+
+  if (loading) {
     return (
-        <>
-            {accessToken ? <Outlet/> : (
-                <>
-                    <Modal
-                        title="Thông báo"
-                        icon={<InfoOutlined />}
-                        closable={{ 'aria-label': 'Custom Close Button' }}
-                        open={isModalOpen}
-                        onCancel={handleCancel}
-                        footer={null}
-                    >
-                        <p>Vui lòng đăng nhập với vai trò Admin!</p>
-                    </Modal>
-                </>
-            )}
-        </>
-    )
-}
+      <Flex align="center" justify="center" style={{ height: '100vh' }}>
+        <Spin tip="Đang xác thực quyền Admin..." size="large" />
+      </Flex>
+    );
+  }
+
+  // Nếu không hợp lệ, đá về trang login ngay lập tức
+  if (!user || user.role !== 'admin') {
+    return <Navigate to="/admin/login" replace />;
+  }
+
+  // Hợp lệ thì cho vào Dashboard
+  return <Outlet />; 
+};
 
 export default PrivateRouteAdmin;

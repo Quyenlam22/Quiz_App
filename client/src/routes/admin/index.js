@@ -3,6 +3,7 @@ import withSuspense from "../../utils/withSuspense";
 
 // LAYOUTS
 import LayoutAdmin from "../../layouts/LayoutAdmin/index";
+import PrivateRouteAdmin from "../../components/PrivateRoutes/PrivateRouteAdmin";
 
 const DashBoard = lazy(() => import("../../pages/admin/Dashboard"));
 const UserManagement = lazy(() => import("../../pages/admin/UserManagement"));
@@ -11,9 +12,9 @@ const LoginAdmin = lazy(() => import("../../pages/admin/LoginAdmin/index"));
 // const Setting = lazy(() => import("../../pages/admin/Setting"));
 
 export const routesAdmin = [
-  // {
-  //   element: <PrivateRouteAdmin/>,
-  //   children: [
+  {
+    element: <PrivateRouteAdmin/>,
+    children: [
       {
         path: "/admin",
         element: <LayoutAdmin />,
@@ -40,8 +41,8 @@ export const routesAdmin = [
           // },
         ]
       },
-  //   ]
-  // },
+    ]
+  },
   {
     path: "admin/login",
     element: withSuspense(LoginAdmin),
