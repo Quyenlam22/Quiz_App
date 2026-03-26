@@ -19,6 +19,11 @@ function MenuSider () {
             label: <Link to={"/admin/topic-management"}>Quản lý chủ đề</Link>,
         },
         {
+            key: '/admin/question-management',
+            icon: <FaUser />,
+            label: <Link to={"/admin/question-management"}>Quản lý câu hỏi</Link>,
+        },
+        {
             key: '/admin/user-management',
             icon: <FaUser />,
             label: <Link to={"/admin/user-management"}>Quản lý tài khoản</Link>,

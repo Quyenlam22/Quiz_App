@@ -8,6 +8,7 @@ import PrivateRouteAdmin from "../../components/PrivateRoutes/PrivateRouteAdmin"
 const DashBoard = lazy(() => import("../../pages/admin/Dashboard"));
 const UserManagement = lazy(() => import("../../pages/admin/UserManagement"));
 const TopicManagement = lazy(() => import("../../pages/admin/TopicManagement"));
+const QuestionManagement = lazy(() => import("../../pages/admin/QuestionManagement"));
 const LoginAdmin = lazy(() => import("../../pages/admin/LoginAdmin/index"));
 // const Setting = lazy(() => import("../../pages/admin/Setting"));
 
@@ -30,6 +31,10 @@ export const routesAdmin = [
           {
             path: "topic-management",
             element: withSuspense(TopicManagement),
+          },
+          {
+            path: "question-management",
+            element: withSuspense(QuestionManagement),
           },
           {
             path: "user-management",
