@@ -6,6 +6,7 @@ const validate = require("../validates/user.validate");
 
 // AUTH
 route.post('/login', validate.login, controller.login);
+route.post('/login-admin', validate.login, controller.loginAdmin);
 route.post('/create', validate.create, controller.create);
 
 // USER

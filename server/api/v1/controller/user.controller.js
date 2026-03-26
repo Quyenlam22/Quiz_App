@@ -373,3 +373,35 @@ module.exports.deleteMany = async (req, res) => {
         });
     }
 };
+
+// [POST] /api/v1/users/login-admin
+module.exports.loginAdmin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({
+      email: email,
+      password: md5(password),
+      deleted: false
+    }).select("-password");
+
+    if (user) {
+      // Kiểm tra quyền Admin
+      if (user.role !== "admin") {
+        return res.json({ 
+          code: 400, 
+          message: "Bạn không có quyền truy cập vào trang quản trị!" 
+        });
+      }
+
+      res.json({
+        code: 200,
+        user: user
+      });
+    } else {
+      res.json({ code: 400, message: "Email hoặc mật khẩu không chính xác!" });
+    }
+  } catch (error) {
+    res.json({ code: 500, message: "Lỗi hệ thống" });
+  }
+};
