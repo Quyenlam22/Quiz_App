@@ -1,56 +1,57 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Table, Button, Select, Space, Typography, Popconfirm, Tooltip } from "antd";
 import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CreateQuestion from "../../../components/Question/CreateQuestion";
+import { QuestionContext } from "../../../Context/QuestionContext";
+import { TopicContext } from "../../../Context/TopicContext";
+import { AppContext } from "../../../Context/AppProvider";
 
 const { Title } = Typography;
 
-// Mock Data Chủ đề
-const MOCK_TOPICS = [
-  { value: "t1", label: "Javascript" },
-  { value: "t2", label: "HTML/CSS" }
-];
-
-// Mock Data Câu hỏi
-const MOCK_QUESTIONS = [
-  {
-    _id: "q1",
-    topicId: "t1",
-    question: "Từ khóa nào dùng để khai báo biến không thể thay đổi giá trị?",
-    answers: ["var", "let", "const", "set"],
-    correctAnswer: 2,
-    createdAt: "2026-03-26T10:00:00Z"
-  },
-  {
-    _id: "q2",
-    topicId: "t1",
-    question: "Kết quả của 1 + '1' là gì?",
-    answers: ["2", "11", "undefined", "NaN"],
-    correctAnswer: 1,
-    createdAt: "2026-03-26T11:00:00Z"
-  }
-];
-
 function QuestionManagement() {
-  const [questions, setQuestions] = useState(MOCK_QUESTIONS);
+  const { topics } = useContext(TopicContext);
+  const { questions, loading, refreshQuestions, removeQuestion, clearQuestions } = useContext(QuestionContext);
+  const { messageApi } = useContext(AppContext);
+
+  const [selectedTopicId, setSelectedTopicId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingData, setEditingData] = useState(null);
+
+  // Dọn dẹp dữ liệu khi rời trang
+  useEffect(() => {
+    return () => clearQuestions();
+  }, [clearQuestions]);
+
+  const handleTopicChange = (value) => {
+    setSelectedTopicId(value);
+    refreshQuestions(value);
+  };
+
+  const handleDelete = async (id) => {
+    const res = await removeQuestion(id, selectedTopicId);
+    if (res?.code === 200) {
+      messageApi.success("Xóa câu hỏi thành công!");
+    }
+  };
 
   const columns = [
     {
       title: "Câu hỏi",
       dataIndex: "question",
-      width: "40%",
+      width: "45%",
       render: (text) => <span style={{ fontWeight: 500 }}>{text}</span>
     },
     {
-      title: "Các đáp án",
+      title: "Đáp án",
       dataIndex: "answers",
       render: (answers, record) => (
         <ul style={{ paddingLeft: 16, margin: 0, fontSize: "13px" }}>
-          {answers.map((ans, idx) => (
-            <li key={idx} style={{ color: idx === record.correctAnswer ? "#52c41a" : "inherit", fontWeight: idx === record.correctAnswer ? "bold" : "normal" }}>
-              {ans} {idx === record.correctAnswer && "(Đúng)"}
+          {answers?.map((ans, idx) => (
+            <li key={idx} style={{ 
+              color: idx === record.correctAnswer ? "#52c41a" : "inherit", 
+              fontWeight: idx === record.correctAnswer ? "bold" : "normal" 
+            }}>
+              {ans} {idx === record.correctAnswer && " (Đúng)"}
             </li>
           ))}
         </ul>
@@ -58,11 +59,16 @@ function QuestionManagement() {
     },
     {
       title: "Thao tác",
-      width: 120,
+      width: 110,
+      align: 'center',
       render: (_, record) => (
         <Space>
-          <Tooltip title="Sửa"><Button type="text" icon={<EditOutlined />} onClick={() => { setEditingData(record); setIsModalOpen(true); }} /></Tooltip>
-          <Popconfirm title="Xóa câu hỏi này?"><Button danger type="text" icon={<DeleteOutlined />} /></Popconfirm>
+          <Tooltip title="Sửa">
+            <Button type="text" icon={<EditOutlined />} onClick={() => { setEditingData(record); setIsModalOpen(true); }} />
+          </Tooltip>
+          <Popconfirm title="Xóa câu hỏi này?" onConfirm={() => handleDelete(record._id)}>
+            <Button danger type="text" icon={<DeleteOutlined />} />
+          </Popconfirm>
         </Space>
       )
     }
@@ -72,14 +78,29 @@ function QuestionManagement() {
     <div style={{ padding: 20 }}>
       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 20 }}>
         <Title level={3}>Quản lý câu hỏi</Title>
-        <Button type="primary" icon={<PlusOutlined />} onClick={() => { setEditingData(null); setIsModalOpen(true); }}>
+        <Button 
+          type="primary" 
+          icon={<PlusOutlined />} 
+          onClick={() => { setEditingData(null); setIsModalOpen(true); }}
+        >
           Thêm câu hỏi
         </Button>
       </div>
 
-      <div style={{ marginBottom: 20 }}>
-        <span style={{ marginRight: 10 }}>Lọc theo chủ đề:</span>
-        <Select placeholder="Chọn chủ đề" style={{ width: 200 }} options={MOCK_TOPICS} allowClear />
+      <div style={{ marginBottom: 20, display: 'flex', alignItems: 'center', gap: 10 }}>
+        <span>Chọn chủ đề:</span>
+        <Select 
+          placeholder="-- Chọn chủ đề để xem câu hỏi --" 
+          style={{ width: 250 }} 
+          value={selectedTopicId} // 🔥 Liên kết value với state để đồng bộ
+          options={topics?.map(t => ({ label: t.name, value: t._id }))} 
+          onChange={handleTopicChange}
+          allowClear
+          onClear={() => {
+            setSelectedTopicId(null);
+            clearQuestions();
+          }}
+        />
       </div>
 
       <Table 
@@ -87,14 +108,26 @@ function QuestionManagement() {
         columns={columns} 
         dataSource={questions} 
         bordered 
-        pagination={{ pageSize: 5 }} 
+        loading={loading}
+        pagination={{ pageSize: 8 }} 
+        locale={{ 
+          emptyText: selectedTopicId 
+            ? "Chưa có câu hỏi nào cho chủ đề này" 
+            : "Vui lòng chọn một chủ đề phía trên" 
+        }}
       />
 
       <CreateQuestion 
         isModalOpen={isModalOpen} 
         setIsModalOpen={setIsModalOpen} 
-        topics={MOCK_TOPICS} 
+        topics={topics} 
         data={editingData}
+        onSuccess={(topicId) => {
+          // 🔥 Khi thành công, ép Select chuyển về Topic vừa tác động
+          setSelectedTopicId(topicId);
+          refreshQuestions(topicId);
+          setEditingData(null);
+        }}
         onCancel={() => setEditingData(null)}
       />
     </div>

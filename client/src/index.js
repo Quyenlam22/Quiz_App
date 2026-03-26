@@ -1,12 +1,12 @@
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import AppProvider from './Context/AppProvider';
 import AuthProvider from "./Context/AuthProvider";
 import UserProvider from './Context/UserContext';
-import TopicProvider from './Context/TopicContext'; // 🔥 Import mới
+import TopicProvider from './Context/TopicContext';
+import QuestionProvider from './Context/QuestionContext'; // 🔥 Import mới
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -14,13 +14,13 @@ root.render(
         <AuthProvider>
             <UserProvider>
                 <TopicProvider>
+                <QuestionProvider>
                     <AppProvider>
-                        <App />
+                    <App />
                     </AppProvider>
+                </QuestionProvider>
                 </TopicProvider>
             </UserProvider>
         </AuthProvider>
     </BrowserRouter>
 );
-
-reportWebVitals();
