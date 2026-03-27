@@ -5,27 +5,29 @@ import './LayoutAdmin.scss';
 import { MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined } from '@ant-design/icons'
 import { useState } from "react";
 import MenuSider from "../../components/MenuSider";
-import { NavLink, Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
 import LogoutAdmin from "../../components/Logout/LogoutAdmin";
 
 function LayoutAdmin () {
     const [collapse, setCollapse] = useState(false);
     const fullName = Cookies.get('fullNameAdmin') || "";
+    const navigate = useNavigate();
 
     const login = [
         {
             key: "userinfo",
-            label: <NavLink to="user-info">
+            label: <>
                 <Button
                     icon={<UserOutlined />}
                     color="primary"
                     variant="text"
-                    style={{ width: '100%' }}    
+                    style={{ width: '100%' }}  
+                    onClick={() => navigate("/users/info")}  
                 >
                     Thông tin tài khoản
                 </Button>
-            </NavLink>
+            </>
         },
         {
             key: "logout",
